@@ -201,19 +201,19 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .bcm{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
 
 /* PORTFOLIO DONUT */
-.pg{display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;}
-.dw{position:relative;width:200px;height:200px;}
+.pg{display:flex;flex-direction:column;align-items:center;gap:20px;}
+.dw{position:relative;width:160px;height:160px;flex-shrink:0;}
 .dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
-.dt2{font-family:var(--mono);font-size:42px;font-weight:600;color:var(--cream);line-height:1;}
+.dt2{font-family:var(--mono);font-size:36px;font-weight:600;color:var(--cream);line-height:1;}
 .dl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);}
-.legend{display:flex;flex-direction:column;gap:14px;}
-.li{display:flex;align-items:center;justify-content:space-between;}
-.ll{display:flex;align-items:center;gap:12px;}
-.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-.ln{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--t2);}
-.lr{display:flex;align-items:center;gap:16px;}
-.lc{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--cream);min-width:24px;text-align:right;}
-.lbt{width:140px;height:3px;background:var(--g2);overflow:hidden;}
+.legend{display:flex;flex-direction:column;gap:10px;width:100%;}
+.li{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.ll{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.ln{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--t2);}
+.lr{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.lc{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--cream);min-width:16px;text-align:right;}
+.lbt{width:60px;height:2px;background:var(--g2);overflow:hidden;}
 .lbf{height:100%;}
 
 /* SIGNAL GRID */
@@ -356,7 +356,7 @@ textarea{resize:vertical;min-height:60px;}
         <div class="sl" style="margin-top:0">Portfolio Balance</div>
         <div class="card" style="padding:24px;">
           <div class="pg">
-            <div class="dw"><canvas id="donut-chart" width="200" height="200"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
+            <div class="dw"><canvas id="donut-chart" width="160" height="160"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
             <div class="legend" id="dl"></div>
           </div>
         </div>
@@ -446,7 +446,7 @@ function renderDonut(){
   const labs=Object.keys(c),data=Object.values(c),cols=labs.map(l=>DC[l]);
   const ctx=document.getElementById('donut-chart').getContext('2d');
   if(chart)chart.destroy();
-  chart=new Chart(ctx,{type:'doughnut',data:{labels:labs,datasets:[{data,backgroundColor:cols,borderWidth:0,hoverOffset:5}]},options:{cutout:'70%',responsive:false,width:200,height:200,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}},animation:{duration:500}}});
+  chart=new Chart(ctx,{type:'doughnut',data:{labels:labs,datasets:[{data,backgroundColor:cols,borderWidth:0,hoverOffset:5}]},options:{cutout:'70%',responsive:false,width:160,height:160,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}},animation:{duration:500}}});
   document.getElementById('dl').innerHTML=labs.map((l,i)=>{
     const pct=tot?Math.round(data[i]/tot*100):0;
     return`<div class="li"><div class="ll"><div class="ld" style="background:${cols[i]}"></div><div><div class="ln">${l}</div><div class="lbt"><div class="lbf" style="width:${pct}%;background:${cols[i]}"></div></div></div></div><div class="lr"><div class="lc">${data[i]}</div></div></div>`;
