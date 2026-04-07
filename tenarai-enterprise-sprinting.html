@@ -112,8 +112,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sl:first-of-type{margin-top:0;}
 
 /* DASHBOARD SPRINT+PORTFOLIO ROW */
-.dash-row{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;margin-bottom:0;}
-.dash-row .card{height:100%;}
+.dash-row{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:stretch;margin-bottom:0;}
+.dash-row .sprint-card{margin-bottom:0;height:100%;}
+.dash-row .card{display:flex;flex-direction:column;justify-content:center;}
 
 /* METRICS */
 .mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);overflow:hidden;margin-bottom:20px;}
