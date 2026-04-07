@@ -65,6 +65,7 @@ body.light .dt2{color:#0D0D0B;}
 body.light .mt{color:#0D0D0B;}
 body.light .dfv{color:#0D0D0B;}
 body.light .evi{color:#0D0D0B;}
+body.light .pu-name{color:#0D0D0B;}
 body.light .sprint-card.ia{border-left-color:var(--lime-dk);}
 body.light .card{border-left-color:var(--lime-dk);}
 body.light .tw{border-left-color:var(--lime-dk);}
@@ -110,10 +111,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--g4);margin-bottom:12px;margin-top:32px;}
 .sl:first-of-type{margin-top:0;}
 
-/* DASHBOARD 2-COL LAYOUT */
-.dash-top{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
-.dash-main{min-width:0;}
-.dash-side{min-width:0;}
+/* DASHBOARD SPRINT+PORTFOLIO ROW */
+.dash-row{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;margin-bottom:0;}
+.dash-row .card{height:100%;}
 
 /* METRICS */
 .mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);overflow:hidden;margin-bottom:20px;}
@@ -216,7 +216,16 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .lbt{width:60px;height:2px;background:var(--g2);overflow:hidden;}
 .lbf{height:100%;}
 
-/* SIGNAL GRID */
+/* PENDING UPDATES */
+.pu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.pu-card{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid #E63232;border-radius:var(--rl);padding:14px 16px;cursor:pointer;transition:background .15s;}
+.pu-card:hover{background:var(--g2);}
+.pu-card.warn{border-left-color:#EAA012;}
+.pu-name{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:4px;}
+.pu-meta{font-size:11px;color:var(--t3);font-family:var(--mono);}
+.pu-since{font-family:var(--mono);font-size:10px;font-weight:600;margin-top:6px;}
+.pu-since.overdue{color:#E63232;}
+.pu-since.warn{color:#EAA012;}
 .sg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
 .sgch{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t2);margin-bottom:10px;letter-spacing:.04em;}
 .sigd{width:7px;height:7px;border-radius:50%;}
@@ -343,25 +352,27 @@ textarea{resize:vertical;min-height:60px;}
   <div class="view active" id="view-dashboard">
     <div class="ph"><div><div class="pt">Executive Dashboard</div><div class="ps">Strategic overview · Current sprint only</div></div></div>
     <div class="mg" id="dm"></div>
-    <div class="dash-top">
-      <div class="dash-main">
-        <div class="sl" style="margin-top:0">Current Sprint</div>
-        <div id="dsc"></div>
-        <div class="sl">Active Bets in Current Sprint</div>
-        <div class="tw"><table class="dt" id="dbt"><thead><tr><th>Bet</th><th>Owner</th><th>Status</th><th>Signal</th><th>Last Decision</th></tr></thead><tbody></tbody></table></div>
-        <div class="sl">Decision Focus</div>
-        <div class="sg" id="dsg"></div>
-      </div>
-      <div class="dash-side">
-        <div class="sl" style="margin-top:0">Portfolio Balance</div>
-        <div class="card" style="padding:24px;">
-          <div class="pg">
-            <div class="dw"><canvas id="donut-chart" width="160" height="160"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
-            <div class="legend" id="dl"></div>
-          </div>
+
+    <div class="sl">Current Sprint &amp; Portfolio</div>
+    <div class="dash-row">
+      <div id="dsc"></div>
+      <div class="card" style="padding:22px;">
+        <div class="sl" style="margin-top:0;margin-bottom:14px;">Portfolio Balance</div>
+        <div class="pg">
+          <div class="dw"><canvas id="donut-chart" width="160" height="160"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
+          <div class="legend" id="dl"></div>
         </div>
       </div>
     </div>
+
+    <div class="sl">Active Bets in Current Sprint</div>
+    <div class="tw"><table class="dt" id="dbt"><thead><tr><th>Bet</th><th>Owner</th><th>Status</th><th>Signal</th><th>Last Decision</th></tr></thead><tbody></tbody></table></div>
+
+    <div class="sl">Pending Updates</div>
+    <div id="dpend"></div>
+
+    <div class="sl">Decision Focus</div>
+    <div class="sg" id="dsg"></div>
   </div>
 
   <div class="view" id="view-sprints">
@@ -416,9 +427,9 @@ const S={
     {id:'b5',name:'New Logo Outbound Engine',sprint:'s1',owner:'M. Torres',status:'Kill',outcome:'Generate 5 qualified enterprise pipeline opportunities in Q3.',hypothesis:'A structured outbound motion with personalized decks converts cold contacts faster.',whyNow:'Revenue concentration risk — top 2 clients = 60% of revenue.',indicators:['Outbound meetings booked','Pipeline value created','Conversion rate'],signal:'Weak',lastDecision:'Kill',killCriteria:'< 2 qualified meetings from first 100 outbound contacts.',scaleTrigger:'5+ qualified opportunities created within 60 days.',impactAreas:['New Business'],functions:['Marketing'],mu:'MU-1',revenue:'High',margin:'Low',importance:'Medium'}
   ],
   evidence:[
-    {id:'e1',bet:'b1',date:'2026-04-28',expected:'AI usage rate reaches 40% by week 4.',actual:'Usage rate at 52% — above target in squads A and B.',insight:'Squad C lagging due to tooling friction; requires dedicated enablement session.',decision:'Continue',action:'L&D to run focused session for Squad C in week 5.'},
-    {id:'e2',bet:'b2',date:'2026-05-06',expected:'First senior hire placed within 30 days.',actual:'Pipeline built but no placement yet; 3 candidates in final round.',insight:'Market tighter than expected for senior React + AI profiles.',decision:'Continue',action:'TAG to expand sourcing to LATAM and Iberia markets.'},
-    {id:'e3',bet:'b5',date:'2026-05-08',expected:'10 outbound meetings booked from 100 contacts.',actual:'1 meeting booked — well below threshold.',insight:'ICP definition too broad; messaging not resonating with mid-market segment.',decision:'Kill',action:'Kill this bet. Redirect Marketing capacity to Employer Brand bet.'}
+    {id:'e1',bet:'b1',date:'2026-04-04',expected:'AI usage rate reaches 40% by week 4.',actual:'Usage rate at 52% — above target in squads A and B.',insight:'Squad C lagging due to tooling friction; requires dedicated enablement session.',decision:'Continue',action:'L&D to run focused session for Squad C in week 5.'},
+    {id:'e2',bet:'b2',date:'2026-04-04',expected:'First senior hire placed within 30 days.',actual:'Pipeline built but no placement yet; 3 candidates in final round.',insight:'Market tighter than expected for senior React + AI profiles.',decision:'Continue',action:'TAG to expand sourcing to LATAM and Iberia markets.'},
+    {id:'e3',bet:'b5',date:'2026-04-05',expected:'10 outbound meetings booked from 100 contacts.',actual:'1 meeting booked — well below threshold.',insight:'ICP definition too broad; messaging not resonating with mid-market segment.',decision:'Kill',action:'Kill this bet. Redirect Marketing capacity to Employer Brand bet.'}
   ]
 };
 
@@ -476,6 +487,37 @@ function renderDash(){
     <div class="sgc"><div class="sgch"><span class="sigd" style="background:#EAA012"></span>At Risk — Unclear Signal</div>${unc.length?unc.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div style="font-size:11px;color:var(--g4);margin-top:3px">Owner: ${b.owner}</div></div>`).join(''):'<div class="empty">None</div>'}</div>
     <div class="sgc"><div class="sgch"><span class="sigd" style="background:#E63232"></span>Candidates to Kill</div>${wk.length?wk.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div style="font-size:11px;color:var(--g4);margin-top:3px">${b.killCriteria}</div></div>`).join(''):'<div class="empty">None</div>'}</div>`;
   document.getElementById('si').textContent=act?`Active: ${act.name}`:'No active sprint';
+  renderPending(act);
+}
+
+function renderPending(act){
+  if(!act){document.getElementById('dpend').innerHTML='<div class="empty">No active sprint.</div>';return;}
+  const now=new Date();
+  const activeBets=S.bets.filter(b=>b.sprint===act.id&&b.status!=='Kill');
+  // For each bet, find last evidence entry date; flag if >30 days or never logged
+  const items=activeBets.map(b=>{
+    const evs=S.evidence.filter(e=>e.bet===b.id).sort((a,z)=>new Date(z.date)-new Date(a.date));
+    const last=evs[0]?new Date(evs[0].date):null;
+    const daysSince=last?Math.round((now-last)/86400000):null;
+    return{b,last,daysSince};
+  }).filter(({daysSince})=>daysSince===null||daysSince>30)
+    .sort((a,z)=>(z.daysSince||999)-(a.daysSince||999));
+  if(!items.length){
+    document.getElementById('dpend').innerHTML=`<div class="empty" style="color:var(--lime);font-family:var(--mono);font-size:12px;">All bets have recent updates. No action needed.</div>`;
+    return;
+  }
+  document.getElementById('dpend').innerHTML=`<div class="pu-grid">${items.map(({b,last,daysSince})=>{
+    const isNever=daysSince===null;
+    const cls=isNever||daysSince>60?'overdue':'warn';
+    const cardCls=isNever||daysSince>60?'':'warn';
+    const label=isNever?'Never logged':`${daysSince} days since last update`;
+    return`<div class="pu-card ${cardCls}" onclick="openDet('${b.id}')">
+      <div class="pu-name">${b.name}</div>
+      <div class="pu-meta">${b.owner} · ${GS(b.sprint)?.name||'—'}</div>
+      <div style="margin-top:6px">${stb(b.status)}</div>
+      <div class="pu-since ${cls}">${label}</div>
+    </div>`;
+  }).join('')}</div>`;
 }
 
 function renderSprints(){
