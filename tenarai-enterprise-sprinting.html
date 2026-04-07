@@ -20,6 +20,65 @@
   --font:'Barlow',sans-serif; --mono:'Barlow Condensed',sans-serif;
   --r:6px; --rl:10px;
 }
+/* LIGHT THEME */
+body.light {
+  --bg:#E8E5DC; --surface:#F5F3EE; --s2:#ECEAE2; --s3:#DEDAD0;
+  --border:rgba(0,0,0,0.12); --border-mid:rgba(0,0,0,0.20);
+  --text:#0D0D0B; --t2:#2C2C28; --t3:#6B6B63;
+  --g1:#F5F3EE; --g2:#ECEAE2; --g3:#DEDAD0; --g4:#6B6B63; --g5:#888780; --g6:#2C2C28;
+}
+body.light .nb:hover{background:var(--g2);}
+body.light .nb.active{background:rgba(136,178,0,0.12);color:var(--lime-dk);}
+body.light .sb-module{color:var(--lime-dk);}
+body.light .na{color:var(--lime-dk);}
+body.light .fd{background:var(--lime-dk);}
+body.light .pt-fill{background:var(--lime-dk);}
+body.light .sp-pct{color:var(--lime-dk);}
+body.light .dsl{color:var(--lime-dk);border-bottom-color:rgba(136,178,0,0.25);}
+body.light .csc{color:var(--lime-dk);}
+body.light .eva{color:var(--lime-dk);}
+body.light .bc:hover{border-color:var(--lime-dk);}
+body.light .btn-p{background:var(--lime-dk);border-color:var(--lime-dk);}
+body.light .btn-p:hover{background:var(--lime);border-color:var(--lime);}
+body.light .b-active{background:rgba(136,178,0,0.1);color:var(--lime-dk);}
+body.light .b-explore{background:rgba(56,189,248,.12);color:#0284C7;}
+body.light .b-validate{background:rgba(234,160,18,.12);color:#92400E;}
+body.light .b-scale{background:rgba(0,200,100,.1);color:#166534;}
+body.light .b-kill{background:rgba(230,50,50,.1);color:#991B1B;}
+body.light .b-continue{background:rgba(100,150,255,.12);color:#1D4ED8;}
+body.light .b-pivot{background:rgba(234,160,18,.12);color:#92400E;}
+body.light .b-scaleD{background:rgba(0,200,100,.1);color:#166534;}
+body.light .b-killD{background:rgba(230,50,50,.1);color:#991B1B;}
+body.light .b-planned{background:rgba(100,150,255,.1);color:#1D4ED8;}
+body.light .b-closed{background:rgba(0,0,0,.06);color:#6B6B63;}
+body.light .ss{color:#3B6D11;} body.light .su{color:#92400E;} body.light .sw{color:#991B1B;}
+body.light .ck{color:#991B1B;}
+body.light .pt{color:#0D0D0B;}
+body.light .sn{color:#0D0D0B;}
+body.light .sb-wordmark{color:#0D0D0B;}
+body.light .dp-title{color:#0D0D0B;}
+body.light .fnn{color:#0D0D0B;}
+body.light .bcn{color:#0D0D0B;}
+body.light .kch{color:#6B6B63;}
+body.light .mv{color:#0D0D0B;}
+body.light .dt2{color:#0D0D0B;}
+body.light .mt{color:#0D0D0B;}
+body.light .dfv{color:#0D0D0B;}
+body.light .evi{color:#0D0D0B;}
+body.light .sprint-card.ia{border-left-color:var(--lime-dk);}
+body.light .card{border-left-color:var(--lime-dk);}
+body.light .tw{border-left-color:var(--lime-dk);}
+body.light .kc{border-left-color:var(--lime-dk);}
+body.light .sgc{border-left-color:var(--lime-dk);}
+body.light .fnc{border-left-color:var(--lime-dk);}
+body.light .mg{border-left-color:var(--lime-dk);}
+/* theme toggle btn */
+.theme-toggle{display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:10px;color:var(--g4);letter-spacing:.05em;padding:0;transition:color .12s;}
+.theme-toggle:hover{color:var(--text);}
+.toggle-track{width:28px;height:15px;border-radius:8px;background:var(--g3);position:relative;transition:background .2s;flex-shrink:0;}
+body.light .toggle-track{background:var(--lime-dk);}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:var(--cream);transition:transform .2s;}
+body.light .toggle-thumb{transform:translateX(13px);background:#fff;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
 .app{display:flex;height:100vh;}
@@ -52,7 +111,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sl:first-of-type{margin-top:0;}
 
 /* METRICS */
-.mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:6px;}
+.mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);overflow:hidden;margin-bottom:6px;}
 .mc{background:var(--surface);padding:16px 18px;}
 .mlb{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:8px;}
 .mv{font-family:var(--mono);font-size:36px;font-weight:600;color:var(--cream);line-height:1;}
@@ -83,6 +142,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .t-ld{background:rgba(234,160,18,.12);color:#EAA012;}
 .t-mkt{background:rgba(255,100,80,.1);color:#FF6450;}
 .t-del{background:rgba(34,211,238,.1);color:#22D3EE;}
+.t-mu1{background:rgba(244,114,182,.12);color:#F472B6;}
+.t-mu2{background:rgba(52,211,153,.12);color:#34D399;}
+.t-mu3{background:rgba(251,191,36,.12);color:#FBBF24;}
+.t-mu4{background:rgba(167,139,250,.12);color:#A78BFA;}
 .t-acc{background:rgba(0,200,100,.1);color:#00C864;}
 .t-new{background:rgba(100,150,255,.12);color:#6496FF;}
 .t-int{background:rgba(150,130,255,.12);color:#A090FF;}
@@ -90,8 +153,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 
 /* CARDS */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);border-left:2px solid var(--lime);}
-.sprint-card{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:20px;margin-bottom:10px;transition:border-top-color .15s, border-right-color .15s, border-bottom-color .15s;}
-.sprint-card:hover{border-top-color:var(--border-mid);border-right-color:var(--border-mid);border-bottom-color:var(--border-mid);}
+.sprint-card{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:20px;margin-bottom:10px;transition:background .15s;}
+.sprint-card:hover{background:var(--g2);}
 .sprint-card.ia{border-left:2px solid var(--lime);}
 /* TABLE wrapper */
 .tw{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;border-left:2px solid var(--lime);}
@@ -162,25 +225,25 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .ds{margin-bottom:20px;}
 .dsl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--lime);padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid rgba(170,220,0,.2);}
 .df{margin-bottom:10px;}
-.dfl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);margin-bottom:4px;}
-.dfv{font-size:13px;color:var(--t2);line-height:1.6;}
+.dfl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g5);margin-bottom:4px;}
+.dfv{font-size:13px;color:var(--cream);line-height:1.6;}
 .d2c{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .ip{display:inline-flex;align-items:center;background:var(--g2);border:1px solid var(--border);border-radius:3px;padding:3px 8px;font-size:11px;color:var(--t2);margin:2px;}
 .ir{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .ii{background:var(--g2);border-radius:var(--r);padding:10px 12px;}
-.iil{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);margin-bottom:5px;}
+.iil{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g5);margin-bottom:5px;}
 .iiv{font-family:var(--mono);font-size:15px;font-weight:600;}
-.ih{color:var(--lime);} .im{color:#EAA012;} .ilo{color:var(--g4);}
+.ih{color:var(--cream);} .im{color:#EAA012;} .ilo{color:var(--g4);}
 .ev{background:var(--g2);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;border-left:2px solid var(--border-mid);}
 .ev.ekl{border-left-color:#E63232;} .ev.esc{border-left-color:var(--lime);} .ev.eco{border-left-color:#6496FF;} .ev.epi{border-left-color:#EAA012;}
-.evd{font-family:var(--mono);font-size:10px;color:var(--g4);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
-.evi{font-size:12px;color:var(--t2);line-height:1.6;}
-.eva{font-family:var(--mono);font-size:11px;color:var(--lime);margin-top:5px;font-weight:500;}
+.evd{font-family:var(--mono);font-size:10px;color:var(--g5);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+.evi{font-size:12px;color:var(--cream);line-height:1.6;}
+.eva{font-family:var(--mono);font-size:11px;color:var(--cream);margin-top:5px;font-weight:500;}
 .cb{width:30px;height:30px;flex-shrink:0;border:1px solid var(--border);border-radius:var(--r);background:var(--g3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--g5);transition:all .1s;}
 .cb:hover{background:var(--g4);color:var(--cream);}
 
-.fnc{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:border-top-color .15s, border-right-color .15s, border-bottom-color .15s;}
-.fnc:hover{border-top-color:var(--border-mid);border-right-color:var(--border-mid);border-bottom-color:var(--border-mid);}
+.fnc{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:background .15s;}
+.fnc:hover{background:var(--g2);}
 .fnh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
 .fnn{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);}
 .fnm{font-size:11px;color:var(--t3);margin-top:2px;}
@@ -209,7 +272,7 @@ textarea{resize:vertical;min-height:60px;}
 
 /* MISC */
 .empty{font-size:13px;color:var(--g4);padding:12px 0;}
-.ck{color:#E63232;} .csc{color:var(--lime);}
+.ck{color:#E63232;} .csc{color:var(--cream);}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--g3);border-radius:3px;}
@@ -247,13 +310,26 @@ textarea{resize:vertical;min-height:60px;}
       <button class="nb" onclick="showView('fn-delivery',this)"><span class="nd" style="background:#22D3EE"></span>Delivery</button>
     </div>
     <div class="nav-grp">
+      <div class="nav-lbl">By MU</div>
+      <button class="nb" onclick="showView('mu-1',this)"><span class="nd" style="background:#F472B6"></span>MU-1</button>
+      <button class="nb" onclick="showView('mu-2',this)"><span class="nd" style="background:#34D399"></span>MU-2</button>
+      <button class="nb" onclick="showView('mu-3',this)"><span class="nd" style="background:#FBBF24"></span>MU-3</button>
+      <button class="nb" onclick="showView('mu-4',this)"><span class="nd" style="background:#A78BFA"></span>MU-4</button>
+    </div>
+    <div class="nav-grp">
       <div class="nav-lbl">Actions</div>
       <button class="nb" onclick="openModal('sprint')"><span class="na">+</span>New Sprint</button>
       <button class="nb" onclick="openModal('bet')"><span class="na">+</span>New Strategic Bet</button>
       <button class="nb" onclick="openModal('evidence')"><span class="na">+</span>Log Evidence</button>
     </div>
   </nav>
-  <div class="sb-foot"><span class="fd"></span><span id="si">Loading...</span></div>
+  <div class="sb-foot">
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <span id="theme-lbl">Dark</span>
+    </button>
+    <div style="margin-top:8px;"><span class="fd"></span><span id="si">Loading...</span></div>
+  </div>
 </aside>
 
 <main class="main">
@@ -288,7 +364,7 @@ textarea{resize:vertical;min-height:60px;}
 
   <div class="view" id="view-bets-table">
     <div class="ph"><div class="pt">Strategic Bets — Full Table</div><div class="ps">All bets · Click any row to expand</div></div>
-    <div class="tw"><table class="dt" id="fbt"><thead><tr><th>Name</th><th>Sprint</th><th>Owner</th><th>Status</th><th>Signal</th><th>Impact</th><th>Functions</th></tr></thead><tbody></tbody></table></div>
+    <div class="tw"><table class="dt" id="fbt"><thead><tr><th>Name</th><th>Sprint</th><th>Owner</th><th>Status</th><th>Signal</th><th>MU</th><th>Impact</th><th>Functions</th></tr></thead><tbody></tbody></table></div>
   </div>
 
   <div class="view" id="view-evidence">
@@ -300,6 +376,10 @@ textarea{resize:vertical;min-height:60px;}
   <div class="view" id="view-fn-tag"><div class="ph"><div class="pt">TAG — Recruiting Bets</div><div class="ps">Bets where TAG is a support function</div></div><div id="ftag"></div></div>
   <div class="view" id="view-fn-mkt"><div class="ph"><div class="pt">Marketing Bets</div><div class="ps">Bets where Marketing is a support function</div></div><div id="fmkt"></div></div>
   <div class="view" id="view-fn-delivery"><div class="ph"><div class="pt">Delivery Bets</div><div class="ps">Bets where Delivery is a support function</div></div><div id="fdel"></div></div>
+  <div class="view" id="view-mu-1"><div class="ph"><div class="pt">MU-1 — Bets</div><div class="ps">Strategic bets owned or assigned to MU-1</div></div><div id="fmu1"></div></div>
+  <div class="view" id="view-mu-2"><div class="ph"><div class="pt">MU-2 — Bets</div><div class="ps">Strategic bets owned or assigned to MU-2</div></div><div id="fmu2"></div></div>
+  <div class="view" id="view-mu-3"><div class="ph"><div class="pt">MU-3 — Bets</div><div class="ps">Strategic bets owned or assigned to MU-3</div></div><div id="fmu3"></div></div>
+  <div class="view" id="view-mu-4"><div class="ph"><div class="pt">MU-4 — Bets</div><div class="ps">Strategic bets owned or assigned to MU-4</div></div><div id="fmu4"></div></div>
 
 </main>
 </div>
@@ -310,21 +390,23 @@ textarea{resize:vertical;min-height:60px;}
 <script>
 const S={
   sprints:[
-    {id:'s1',name:'Q3 2026 Sprint',start:'2026-07-01',end:'2026-09-30',focus:'Accelerate delivery throughput and expand new business pipeline through AI-enabled capabilities.',status:'Active'},
-    {id:'s2',name:'Q4 2026 Sprint',start:'2026-10-01',end:'2026-12-31',focus:'Scale validated bets and consolidate internal capability gains.',status:'Planned'},
-    {id:'s0',name:'Q2 2026 Sprint',start:'2026-04-01',end:'2026-06-30',focus:'Foundation: talent density, delivery baseline, and brand positioning.',status:'Closed'}
+    {id:'s1',name:'Q1 FY27 Sprint',start:'2026-04-01',end:'2026-06-30',focus:'Accelerate delivery throughput and expand new business pipeline through AI-enabled capabilities.',status:'Active'},
+    {id:'s2',name:'Q2 FY27 Sprint',start:'2026-07-01',end:'2026-09-30',focus:'Scale validated bets and consolidate internal capability gains.',status:'Planned'},
+    {id:'s3',name:'Q3 FY27 Sprint',start:'2026-10-01',end:'2026-12-31',focus:'Deepen market position and accelerate talent density across key MUs.',status:'Planned'},
+    {id:'s4',name:'Q4 FY27 Sprint',start:'2027-01-01',end:'2027-03-31',focus:'Close the fiscal year strong: revenue consolidation, capability lock-in, FY28 foundation.',status:'Planned'},
+    {id:'s0',name:'Q4 FY26 Sprint',start:'2026-01-01',end:'2026-03-31',focus:'Foundation: talent density, delivery baseline, and brand positioning.',status:'Closed'}
   ],
   bets:[
-    {id:'b1',name:'AI-Assisted Delivery Pods',sprint:'s1',owner:'C. Vera',status:'Explore',outcome:'Increase delivery efficiency by 15% in 90 days.',hypothesis:'Embedding AI copilots in 3 squads will reduce effort per feature.',whyNow:'Client pressure on speed + new tooling now mature enough to deploy.',indicators:['AI usage rate >60%','Cycle time reduction','Dev satisfaction ↑'],signal:'Strong',lastDecision:'Continue',killCriteria:'AI usage rate < 30% after 6 weeks.',scaleTrigger:'Cycle time reduction ≥ 20% across all 3 squads.',impactAreas:['Accounts','Delivery Model'],functions:['HR','L&D','TAG','Marketing'],revenue:'High',margin:'Medium',importance:'High'},
-    {id:'b2',name:'Senior IC Density Program',sprint:'s1',owner:'L. Martínez',status:'Validate',outcome:'Increase senior-to-mid ratio from 1:4 to 1:2 in key accounts.',hypothesis:'Higher IC seniority reduces PM overhead and increases client NPS.',whyNow:'Two strategic accounts at risk due to perceived quality gap.',indicators:['Senior fill rate','Client NPS delta','PM escalation count'],signal:'Unclear',lastDecision:'Continue',killCriteria:'No improvement in client NPS after 60 days.',scaleTrigger:'NPS delta ≥ +8 and senior fill rate ≥ 70%.',impactAreas:['Accounts','Internal Capability'],functions:['HR','TAG','L&D'],revenue:'High',margin:'High',importance:'High'},
-    {id:'b3',name:'MU Playbook Standardization',sprint:'s1',owner:'R. Acosta',status:'Validate',outcome:'Reduce onboarding time per MU from 3 weeks to 1 week.',hypothesis:'A standardized MU playbook eliminates context-switching and ramp time.',whyNow:'New MU formation rate is accelerating — inconsistency is a bottleneck.',indicators:['Onboarding time per MU','MU lead satisfaction','Ramp-to-first-delivery'],signal:'Strong',lastDecision:'Continue',killCriteria:'Playbook adoption < 50% after 45 days.',scaleTrigger:'Onboarding time ≤ 7 days across 3 consecutive MU formations.',impactAreas:['Internal Capability','Delivery Model'],functions:['HR','L&D'],revenue:'Medium',margin:'High',importance:'High'},
-    {id:'b4',name:'Employer Brand Repositioning',sprint:'s1',owner:'P. Suárez',status:'Explore',outcome:'Increase qualified inbound applications by 25% in 60 days.',hypothesis:'Repositioning as an AI-native firm attracts top-tier talent and accelerates TAG pipeline.',whyNow:'Market noise is high; first movers on AI narrative capture talent attention.',indicators:['Inbound app volume','Application quality score','Brand mention volume'],signal:'Unclear',lastDecision:'Continue',killCriteria:'No measurable increase in qualified applications after 45 days.',scaleTrigger:'Inbound apps ↑ 25% + quality score ≥ 7/10.',impactAreas:['New Business','Internal Capability'],functions:['Marketing','TAG','HR'],revenue:'Medium',margin:'Medium',importance:'High'},
-    {id:'b5',name:'New Logo Outbound Engine',sprint:'s1',owner:'M. Torres',status:'Kill',outcome:'Generate 5 qualified enterprise pipeline opportunities in Q3.',hypothesis:'A structured outbound motion with personalized decks converts cold contacts faster.',whyNow:'Revenue concentration risk — top 2 clients = 60% of revenue.',indicators:['Outbound meetings booked','Pipeline value created','Conversion rate'],signal:'Weak',lastDecision:'Kill',killCriteria:'< 2 qualified meetings from first 100 outbound contacts.',scaleTrigger:'5+ qualified opportunities created within 60 days.',impactAreas:['New Business'],functions:['Marketing'],revenue:'High',margin:'Low',importance:'Medium'}
+    {id:'b1',name:'AI-Assisted Delivery Pods',sprint:'s1',owner:'C. Vera',status:'Explore',outcome:'Increase delivery efficiency by 15% in 90 days.',hypothesis:'Embedding AI copilots in 3 squads will reduce effort per feature.',whyNow:'Client pressure on speed + new tooling now mature enough to deploy.',indicators:['AI usage rate >60%','Cycle time reduction','Dev satisfaction ↑'],signal:'Strong',lastDecision:'Continue',killCriteria:'AI usage rate < 30% after 6 weeks.',scaleTrigger:'Cycle time reduction ≥ 20% across all 3 squads.',impactAreas:['Accounts','Delivery Model'],functions:['HR','L&D','TAG','Marketing'],mu:'MU-1',revenue:'High',margin:'Medium',importance:'High'},
+    {id:'b2',name:'Senior IC Density Program',sprint:'s1',owner:'L. Martínez',status:'Validate',outcome:'Increase senior-to-mid ratio from 1:4 to 1:2 in key accounts.',hypothesis:'Higher IC seniority reduces PM overhead and increases client NPS.',whyNow:'Two strategic accounts at risk due to perceived quality gap.',indicators:['Senior fill rate','Client NPS delta','PM escalation count'],signal:'Unclear',lastDecision:'Continue',killCriteria:'No improvement in client NPS after 60 days.',scaleTrigger:'NPS delta ≥ +8 and senior fill rate ≥ 70%.',impactAreas:['Accounts','Internal Capability'],functions:['HR','TAG','L&D'],mu:'MU-2',revenue:'High',margin:'High',importance:'High'},
+    {id:'b3',name:'MU Playbook Standardization',sprint:'s1',owner:'R. Acosta',status:'Validate',outcome:'Reduce onboarding time per MU from 3 weeks to 1 week.',hypothesis:'A standardized MU playbook eliminates context-switching and ramp time.',whyNow:'New MU formation rate is accelerating — inconsistency is a bottleneck.',indicators:['Onboarding time per MU','MU lead satisfaction','Ramp-to-first-delivery'],signal:'Strong',lastDecision:'Continue',killCriteria:'Playbook adoption < 50% after 45 days.',scaleTrigger:'Onboarding time ≤ 7 days across 3 consecutive MU formations.',impactAreas:['Internal Capability','Delivery Model'],functions:['HR','L&D'],mu:'MU-3',revenue:'Medium',margin:'High',importance:'High'},
+    {id:'b4',name:'Employer Brand Repositioning',sprint:'s1',owner:'P. Suárez',status:'Explore',outcome:'Increase qualified inbound applications by 25% in 60 days.',hypothesis:'Repositioning as an AI-native firm attracts top-tier talent and accelerates TAG pipeline.',whyNow:'Market noise is high; first movers on AI narrative capture talent attention.',indicators:['Inbound app volume','Application quality score','Brand mention volume'],signal:'Unclear',lastDecision:'Continue',killCriteria:'No measurable increase in qualified applications after 45 days.',scaleTrigger:'Inbound apps ↑ 25% + quality score ≥ 7/10.',impactAreas:['New Business','Internal Capability'],functions:['Marketing','TAG','HR'],mu:'MU-4',revenue:'Medium',margin:'Medium',importance:'High'},
+    {id:'b5',name:'New Logo Outbound Engine',sprint:'s1',owner:'M. Torres',status:'Kill',outcome:'Generate 5 qualified enterprise pipeline opportunities in Q3.',hypothesis:'A structured outbound motion with personalized decks converts cold contacts faster.',whyNow:'Revenue concentration risk — top 2 clients = 60% of revenue.',indicators:['Outbound meetings booked','Pipeline value created','Conversion rate'],signal:'Weak',lastDecision:'Kill',killCriteria:'< 2 qualified meetings from first 100 outbound contacts.',scaleTrigger:'5+ qualified opportunities created within 60 days.',impactAreas:['New Business'],functions:['Marketing'],mu:'MU-1',revenue:'High',margin:'Low',importance:'Medium'}
   ],
   evidence:[
-    {id:'e1',bet:'b1',date:'2026-07-28',expected:'AI usage rate reaches 40% by week 4.',actual:'Usage rate at 52% — above target in squads A and B.',insight:'Squad C lagging due to tooling friction; requires dedicated enablement session.',decision:'Continue',action:'L&D to run focused session for Squad C in week 5.'},
-    {id:'e2',bet:'b2',date:'2026-07-30',expected:'First senior hire placed within 30 days.',actual:'Pipeline built but no placement yet; 3 candidates in final round.',insight:'Market tighter than expected for senior React + AI profiles.',decision:'Continue',action:'TAG to expand sourcing to LATAM and Iberia markets.'},
-    {id:'e3',bet:'b5',date:'2026-07-31',expected:'10 outbound meetings booked from 100 contacts.',actual:'1 meeting booked — well below threshold.',insight:'ICP definition too broad; messaging not resonating with mid-market segment.',decision:'Kill',action:'Kill this bet. Redirect Marketing capacity to Employer Brand bet.'}
+    {id:'e1',bet:'b1',date:'2026-04-28',expected:'AI usage rate reaches 40% by week 4.',actual:'Usage rate at 52% — above target in squads A and B.',insight:'Squad C lagging due to tooling friction; requires dedicated enablement session.',decision:'Continue',action:'L&D to run focused session for Squad C in week 5.'},
+    {id:'e2',bet:'b2',date:'2026-05-06',expected:'First senior hire placed within 30 days.',actual:'Pipeline built but no placement yet; 3 candidates in final round.',insight:'Market tighter than expected for senior React + AI profiles.',decision:'Continue',action:'TAG to expand sourcing to LATAM and Iberia markets.'},
+    {id:'e3',bet:'b5',date:'2026-05-08',expected:'10 outbound meetings booked from 100 contacts.',actual:'1 meeting booked — well below threshold.',insight:'ICP definition too broad; messaging not resonating with mid-market segment.',decision:'Kill',action:'Kill this bet. Redirect Marketing capacity to Employer Brand bet.'}
   ]
 };
 
@@ -340,6 +422,7 @@ function stb(s){const m={Explore:'b-explore',Validate:'b-validate',Scale:'b-scal
 function spb(s){const m={Active:'b-active',Planned:'b-planned',Closed:'b-closed'};return`<span class="badge ${m[s]||''}">${s}</span>`;}
 function dec(d){const m={Continue:'b-continue',Pivot:'b-pivot',Scale:'b-scaleD',Kill:'b-killD'};return`<span class="badge ${m[d]||''}">${d}</span>`;}
 function ftags(f){const m={'HR':'t-hr','TAG':'t-tag','L&D':'t-ld','Marketing':'t-mkt','Delivery':'t-del'};return(f||[]).map(x=>`<span class="tag ${m[x]||'t-hr'}">${x}</span>`).join(' ');}
+function mutag(mu){const m={'MU-1':'t-mu1','MU-2':'t-mu2','MU-3':'t-mu3','MU-4':'t-mu4'};return mu?`<span class="tag ${m[mu]||'t-mu1'}">${mu}</span>`:'';}
 function itag(a){const m={'Accounts':'t-acc','New Business':'t-new','Internal Capability':'t-int','Delivery Model':'t-dm'};return`<span class="tag ${m[a]||'t-acc'}">${a}</span>`;}
 function ilv(v){const m={High:'ih',Medium:'im',Low:'ilo'};return`<span class="iiv ${m[v]||''}">${v}</span>`;}
 
@@ -397,13 +480,13 @@ function renderKanban(f){
   let bets=f?S.bets.filter(b=>(b.functions||[]).some(x=>mf(x,f))):S.bets;
   document.getElementById('kb').innerHTML=['Explore','Validate','Scale','Kill'].map(col=>{
     const cb=bets.filter(b=>b.status===col);
-    return`<div class="kc"><div class="kch">${col}<span class="kcc">${cb.length}</span></div>${cb.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div class="bcs">${GS(b.sprint)?.name||''}</div><div class="bcm">${sig(b.signal)} ${ftags(b.functions||[])}</div></div>`).join('')}</div>`;
+    return`<div class="kc"><div class="kch">${col}<span class="kcc">${cb.length}</span></div>${cb.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div class="bcs">${GS(b.sprint)?.name||''}</div><div class="bcm">${sig(b.signal)} ${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join('')}</div>`;
   }).join('');
 }
 
 function renderTable(f){
   let bets=f?S.bets.filter(b=>(b.functions||[]).some(x=>mf(x,f))):S.bets;
-  document.querySelector('#fbt tbody').innerHTML=bets.map(b=>`<tr class="cl" onclick="openDet('${b.id}')"><td style="font-weight:500">${b.name}</td><td style="color:var(--t3);font-size:12px">${GS(b.sprint)?.name||'—'}</td><td style="color:var(--t2)">${b.owner}</td><td>${stb(b.status)}</td><td>${sig(b.signal)}</td><td><div style="font-size:11px;color:var(--g4)">Rev: ${b.revenue}</div><div style="font-size:11px;color:var(--g4)">Marg: ${b.margin}</div></td><td>${ftags(b.functions||[])}</td></tr>`).join('');
+  document.querySelector('#fbt tbody').innerHTML=bets.map(b=>`<tr class="cl" onclick="openDet('${b.id}')"><td style="font-weight:500">${b.name}</td><td style="color:var(--t3);font-size:12px">${GS(b.sprint)?.name||'—'}</td><td style="color:var(--t2)">${b.owner}</td><td>${stb(b.status)}</td><td>${sig(b.signal)}</td><td>${mutag(b.mu)}</td><td><div style="font-size:11px;color:var(--g4)">Rev: ${b.revenue}</div><div style="font-size:11px;color:var(--g4)">Marg: ${b.margin}</div></td><td>${ftags(b.functions||[])}</td></tr>`).join('');
 }
 
 function renderEvidence(){
@@ -413,7 +496,12 @@ function renderEvidence(){
 function mf(f,filter){if(filter==='HR/LD')return f==='HR'||f==='L&D';return f===filter;}
 function renderFn(filter,id){
   const bets=S.bets.filter(b=>(b.functions||[]).some(f=>mf(f,filter)));
-  document.getElementById(id).innerHTML=bets.length?bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${ftags(b.functions||[])}</div></div>`).join(''):'<div class="empty">No bets assigned to this function.</div>';
+  document.getElementById(id).innerHTML=bets.length?bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join(''):'<div class="empty">No bets assigned to this function.</div>';
+}
+
+function renderMU(mu,id){
+  const bets=S.bets.filter(b=>b.mu===mu);
+  document.getElementById(id).innerHTML=bets.length?bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join(''):'<div class="empty">No bets assigned to this MU.</div>';
 }
 
 function openDet(id){
@@ -423,7 +511,7 @@ function openDet(id){
   document.getElementById('dp').innerHTML=`
     <div class="dp-head"><div style="flex:1"><div class="dp-title">${b.name}</div><div class="dp-meta">${stb(b.status)} ${sig(b.signal)} ${dec(b.lastDecision)}</div></div><button class="cb" onclick="closeDet()">×</button></div>
     <div class="dp-body">
-      <div class="ds"><div class="dsl">Context</div><div class="d2c"><div class="df"><div class="dfl">Sprint</div><div class="dfv">${sp?.name||'—'}</div></div><div class="df"><div class="dfl">Owner</div><div class="dfv">${b.owner}</div></div></div></div>
+      <div class="ds"><div class="dsl">Context</div><div class="d2c"><div class="df"><div class="dfl">Sprint</div><div class="dfv">${sp?.name||'—'}</div></div><div class="df"><div class="dfl">Owner</div><div class="dfv">${b.owner}</div></div></div><div style="margin-top:8px;display:flex;gap:8px;align-items:center"><div class="dfl" style="margin-bottom:0">MU</div> ${mutag(b.mu)||'<span style="font-size:12px;color:var(--g4)">—</span>'}</div></div>
       <div class="ds"><div class="dsl">Strategic Definition</div><div class="df"><div class="dfl">Strategic Outcome</div><div class="dfv">${b.outcome||'—'}</div></div><div class="df"><div class="dfl">Hypothesis</div><div class="dfv">${b.hypothesis||'—'}</div></div><div class="df"><div class="dfl">Why Now</div><div class="dfv">${b.whyNow||'—'}</div></div></div>
       <div class="ds"><div class="dsl">Evidence &amp; Signal</div><div class="df"><div class="dfl">Leading Indicators</div><div style="margin-top:5px">${(b.indicators||[]).map(i=>`<span class="ip">${i}</span>`).join('')||'—'}</div></div></div>
       <div class="ds"><div class="dsl">Decision Criteria</div><div class="df"><div class="dfl">Kill Criteria</div><div class="dfv ck">${b.killCriteria||'—'}</div></div><div class="df"><div class="dfl">Scale Trigger</div><div class="dfv csc">${b.scaleTrigger||'—'}</div></div></div>
@@ -439,10 +527,10 @@ function openModal(type){
   const bd=document.getElementById('modb'),body=document.getElementById('mod');
   bd.className='mb';bd.style.display='flex';
   if(type==='sprint'){
-    body.innerHTML=`<div class="mt">New Enterprise Sprint</div><div class="fg"><div class="ff full"><div class="fl">Sprint Name</div><input type="text" id="ms-n" placeholder="e.g. Q1 2027 Sprint"></div><div class="ff"><div class="fl">Start Date</div><input type="date" id="ms-s"></div><div class="ff"><div class="fl">End Date</div><input type="date" id="ms-e"></div><div class="ff full"><div class="fl">Strategic Focus</div><textarea id="ms-f" placeholder="What does this sprint aim to achieve?"></textarea></div><div class="ff"><div class="fl">Status</div><select id="ms-st"><option>Planned</option><option>Active</option><option>Closed</option></select></div></div><div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveSprint()">Save Sprint</button></div>`;
+    body.innerHTML=`<div class="mt">New Enterprise Sprint</div><div class="fg"><div class="ff full"><div class="fl">Sprint Name</div><input type="text" id="ms-n" placeholder="e.g. Q1 FY28 Sprint"></div><div class="ff"><div class="fl">Start Date</div><input type="date" id="ms-s"></div><div class="ff"><div class="fl">End Date</div><input type="date" id="ms-e"></div><div class="ff full"><div class="fl">Strategic Focus</div><textarea id="ms-f" placeholder="What does this sprint aim to achieve?"></textarea></div><div class="ff"><div class="fl">Status</div><select id="ms-st"><option>Planned</option><option>Active</option><option>Closed</option></select></div></div><div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveSprint()">Save Sprint</button></div>`;
   } else if(type==='bet'){
     const so=S.sprints.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
-    body.innerHTML=`<div class="mt">New Strategic Bet</div><div class="fg"><div class="ff full"><div class="fl">Bet Name</div><input type="text" id="mb-n" placeholder="e.g. Partner Channel Pilot"></div><div class="ff"><div class="fl">Sprint</div><select id="mb-sp">${so}</select></div><div class="ff"><div class="fl">Owner</div><input type="text" id="mb-o" placeholder="Name or role"></div><div class="ff"><div class="fl">Status</div><select id="mb-st"><option>Explore</option><option>Validate</option><option>Scale</option><option>Kill</option></select></div><div class="ff"><div class="fl">Signal</div><select id="mb-si"><option>Unclear</option><option>Strong</option><option>Weak</option></select></div><div class="ff full"><div class="fl">Strategic Outcome</div><textarea id="mb-ou" placeholder="What measurable outcome does this bet deliver?"></textarea></div><div class="ff full"><div class="fl">Hypothesis</div><textarea id="mb-hy" placeholder="If we do X, then Y will happen..."></textarea></div><div class="ff full"><div class="fl">Why Now</div><input type="text" id="mb-wn" placeholder="Why is this the right moment?"></div><div class="ff full"><div class="fl">Kill Criteria</div><input type="text" id="mb-kc" placeholder="When should we stop?"></div><div class="ff full"><div class="fl">Scale Trigger</div><input type="text" id="mb-sc" placeholder="What signal confirms this works?"></div><div class="ff full"><div class="fl">Support Functions</div><div class="cr">${['HR','TAG','L&D','Marketing'].map(f=>`<label><input type="checkbox" value="${f}" class="mbf"> ${f}</label>`).join('')}</div></div><div class="ff"><div class="fl">Revenue Impact</div><select id="mb-rv"><option>Medium</option><option>High</option><option>Low</option></select></div><div class="ff"><div class="fl">Margin Impact</div><select id="mb-mg"><option>Medium</option><option>High</option><option>Low</option></select></div></div><div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveBet()">Save Bet</button></div>`;
+    body.innerHTML=`<div class="mt">New Strategic Bet</div><div class="fg"><div class="ff full"><div class="fl">Bet Name</div><input type="text" id="mb-n" placeholder="e.g. Partner Channel Pilot"></div><div class="ff"><div class="fl">Sprint</div><select id="mb-sp">${so}</select></div><div class="ff"><div class="fl">Owner</div><input type="text" id="mb-o" placeholder="Name or role"></div><div class="ff"><div class="fl">Status</div><select id="mb-st"><option>Explore</option><option>Validate</option><option>Scale</option><option>Kill</option></select></div><div class="ff"><div class="fl">Signal</div><select id="mb-si"><option>Unclear</option><option>Strong</option><option>Weak</option></select></div><div class="ff"><div class="fl">Market Unit (MU)</div><select id="mb-mu"><option value="">— None —</option><option>MU-1</option><option>MU-2</option><option>MU-3</option><option>MU-4</option></select></div><div class="ff full"><div class="fl">Strategic Outcome</div><textarea id="mb-ou" placeholder="What measurable outcome does this bet deliver?"></textarea></div><div class="ff full"><div class="fl">Hypothesis</div><textarea id="mb-hy" placeholder="If we do X, then Y will happen..."></textarea></div><div class="ff full"><div class="fl">Why Now</div><input type="text" id="mb-wn" placeholder="Why is this the right moment?"></div><div class="ff full"><div class="fl">Kill Criteria</div><input type="text" id="mb-kc" placeholder="When should we stop?"></div><div class="ff full"><div class="fl">Scale Trigger</div><input type="text" id="mb-sc" placeholder="What signal confirms this works?"></div><div class="ff full"><div class="fl">Support Functions</div><div class="cr">${['HR','TAG','L&D','Marketing'].map(f=>`<label><input type="checkbox" value="${f}" class="mbf"> ${f}</label>`).join('')}</div></div><div class="ff"><div class="fl">Revenue Impact</div><select id="mb-rv"><option>Medium</option><option>High</option><option>Low</option></select></div><div class="ff"><div class="fl">Margin Impact</div><select id="mb-mg"><option>Medium</option><option>High</option><option>Low</option></select></div></div><div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveBet()">Save Bet</button></div>`;
   } else if(type==='evidence'){
     const bo=S.bets.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
     body.innerHTML=`<div class="mt">Log Evidence</div><div class="fg"><div class="ff"><div class="fl">Bet</div><select id="me-b">${bo}</select></div><div class="ff"><div class="fl">Date</div><input type="date" id="me-d"></div><div class="ff full"><div class="fl">Expected</div><input type="text" id="me-ex" placeholder="What did you expect to see?"></div><div class="ff full"><div class="fl">Actual</div><input type="text" id="me-ac" placeholder="What actually happened?"></div><div class="ff full"><div class="fl">Insight</div><textarea id="me-in" placeholder="What does this tell us?"></textarea></div><div class="ff"><div class="fl">Decision</div><select id="me-de"><option>Continue</option><option>Pivot</option><option>Scale</option><option>Kill</option></select></div><div class="ff full"><div class="fl">Action</div><input type="text" id="me-at" placeholder="Next action based on this evidence"></div></div><div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveEvidence()">Save Entry</button></div>`;
@@ -450,7 +538,7 @@ function openModal(type){
 }
 function closeModal(){document.getElementById('modb').style.display='none';}
 function saveSprint(){S.sprints.unshift({id:'s'+Date.now(),name:V('ms-n')||'New Sprint',start:V('ms-s'),end:V('ms-e'),focus:V('ms-f'),status:V('ms-st')});closeModal();renderAll();}
-function saveBet(){const f=[...document.querySelectorAll('.mbf:checked')].map(el=>el.value);S.bets.push({id:'b'+Date.now(),name:V('mb-n')||'New Bet',sprint:V('mb-sp'),owner:V('mb-o')||'—',status:V('mb-st'),signal:V('mb-si'),outcome:V('mb-ou'),hypothesis:V('mb-hy'),whyNow:V('mb-wn'),indicators:[],killCriteria:V('mb-kc'),scaleTrigger:V('mb-sc'),impactAreas:[],functions:f,revenue:V('mb-rv'),margin:V('mb-mg'),importance:'Medium',lastDecision:'Continue'});closeModal();renderAll();}
+function saveBet(){const f=[...document.querySelectorAll('.mbf:checked')].map(el=>el.value);S.bets.push({id:'b'+Date.now(),name:V('mb-n')||'New Bet',sprint:V('mb-sp'),owner:V('mb-o')||'—',status:V('mb-st'),signal:V('mb-si'),mu:V('mb-mu')||'',outcome:V('mb-ou'),hypothesis:V('mb-hy'),whyNow:V('mb-wn'),indicators:[],killCriteria:V('mb-kc'),scaleTrigger:V('mb-sc'),impactAreas:[],functions:f,revenue:V('mb-rv'),margin:V('mb-mg'),importance:'Medium',lastDecision:'Continue'});closeModal();renderAll();}
 function saveEvidence(){S.evidence.unshift({id:'e'+Date.now(),bet:V('me-b'),date:V('me-d'),expected:V('me-ex'),actual:V('me-ac'),insight:V('me-in'),decision:V('me-de'),action:V('me-at')});closeModal();renderAll();}
 
 function showView(id,btn){
@@ -460,9 +548,15 @@ function showView(id,btn){
   btn?.classList.add('active');
 }
 
+function toggleTheme(){
+  const isLight=document.body.classList.toggle('light');
+  document.getElementById('theme-lbl').textContent=isLight?'Light':'Dark';
+}
+
 function renderAll(){
   renderDash();renderSprints();renderKanban();renderTable();renderEvidence();
   renderFn('HR/LD','fhr');renderFn('TAG','ftag');renderFn('Marketing','fmkt');renderFn('Delivery','fdel');
+  renderMU('MU-1','fmu1');renderMU('MU-2','fmu2');renderMU('MU-3','fmu3');renderMU('MU-4','fmu4');
 }
 renderAll();
 </script>
