@@ -84,38 +84,43 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .app{display:flex;height:100vh;}
 
 /* SIDEBAR */
-.sidebar{width:220px;min-width:220px;background:var(--g1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
-.sb-brand{padding:20px 16px 16px;border-bottom:1px solid var(--border);}
+.sidebar{width:240px;min-width:240px;background:var(--g1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
+.sb-brand{padding:22px 20px 16px;border-bottom:1px solid var(--border);}
 .sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.sb-wordmark{font-family:var(--mono);font-size:18px;font-weight:600;letter-spacing:0.04em;color:var(--cream);}
+.sb-wordmark{font-family:var(--mono);font-size:20px;font-weight:600;letter-spacing:0.04em;color:var(--cream);}
 .sb-module{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--lime);margin-bottom:2px;}
 .sb-sub{font-size:11px;color:var(--t3);}
-.nav-grp{padding:12px 8px 4px;}
+.nav-grp{padding:12px 10px 4px;}
 .nav-lbl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:var(--g4);padding:0 8px;margin-bottom:3px;}
-.nb{display:flex;align-items:center;gap:9px;width:100%;padding:6px 8px;border:none;background:none;border-radius:var(--r);font-family:var(--font);font-size:13px;color:var(--t3);cursor:pointer;text-align:left;transition:all .12s;}
+.nb{display:flex;align-items:center;gap:9px;width:100%;padding:7px 8px;border:none;background:none;border-radius:var(--r);font-family:var(--font);font-size:13px;color:var(--t3);cursor:pointer;text-align:left;transition:all .12s;}
 .nb:hover{background:var(--g2);color:var(--text);}
 .nb.active{background:rgba(170,220,0,0.1);color:var(--lime);}
 .nd{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .na{color:var(--lime);font-size:16px;line-height:1;font-weight:300;}
-.sb-foot{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--g4);font-family:var(--mono);letter-spacing:.05em;}
+.sb-foot{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--g4);font-family:var(--mono);letter-spacing:.05em;}
 .fd{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lime);margin-right:5px;vertical-align:middle;}
 
 /* MAIN */
 .main{flex:1;overflow-y:auto;background:var(--bg);}
-.view{display:none;padding:32px 32px 64px;max-width:1120px;}
+.view{display:none;padding:36px 40px 64px;width:100%;}
 .view.active{display:block;}
-.ph{margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:16px;}
-.pt{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--cream);margin-bottom:3px;letter-spacing:.01em;}
+.ph{margin-bottom:28px;border-bottom:1px solid var(--border);padding-bottom:18px;display:flex;align-items:flex-end;justify-content:space-between;}
+.pt{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--cream);margin-bottom:3px;letter-spacing:.01em;}
 .ps{font-size:12px;color:var(--t3);}
-.sl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--g4);margin-bottom:10px;margin-top:28px;}
+.sl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--g4);margin-bottom:12px;margin-top:32px;}
 .sl:first-of-type{margin-top:0;}
 
+/* DASHBOARD 2-COL LAYOUT */
+.dash-top{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
+.dash-main{min-width:0;}
+.dash-side{min-width:0;}
+
 /* METRICS */
-.mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);overflow:hidden;margin-bottom:6px;}
-.mc{background:var(--surface);padding:16px 18px;}
-.mlb{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:8px;}
-.mv{font-family:var(--mono);font-size:36px;font-weight:600;color:var(--cream);line-height:1;}
-.ms{font-size:11px;color:var(--t3);margin-top:5px;}
+.mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);overflow:hidden;margin-bottom:20px;}
+.mc{background:var(--surface);padding:20px 22px;}
+.mlb{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:10px;}
+.mv{font-family:var(--mono);font-size:42px;font-weight:600;color:var(--cream);line-height:1;}
+.ms{font-size:11px;color:var(--t3);margin-top:6px;}
 
 /* BADGES */
 .badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;padding:3px 9px;border-radius:3px;white-space:nowrap;}
@@ -163,8 +168,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 /* SIGNAL cols */
 .sgc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;border-left:2px solid var(--lime);}
 /* FUNCTION cards */
-.fnc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:border-color .15s;border-left:2px solid var(--lime);}
-.fnc:hover{border-color:var(--border-mid);}
+.fnc{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:18px 20px;margin-bottom:10px;cursor:pointer;transition:background .15s;}
+.fnc:hover{background:var(--g2);}
+.fn-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
 /* DETAIL panel evidence entries keep their color-coded borders */
 .sh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}
 .sn{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--cream);letter-spacing:.02em;}
@@ -195,19 +201,19 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .bcm{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
 
 /* PORTFOLIO DONUT */
-.pg{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center;}
-.dw{position:relative;width:180px;height:180px;}
+.pg{display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;}
+.dw{position:relative;width:200px;height:200px;}
 .dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
-.dt2{font-family:var(--mono);font-size:36px;font-weight:600;color:var(--cream);line-height:1;}
+.dt2{font-family:var(--mono);font-size:42px;font-weight:600;color:var(--cream);line-height:1;}
 .dl{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);}
-.legend{display:flex;flex-direction:column;gap:12px;}
+.legend{display:flex;flex-direction:column;gap:14px;}
 .li{display:flex;align-items:center;justify-content:space-between;}
-.ll{display:flex;align-items:center;gap:10px;}
-.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.ln{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--t2);}
-.lr{display:flex;align-items:center;gap:12px;}
-.lc{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--cream);min-width:20px;text-align:right;}
-.lbt{width:90px;height:2px;background:var(--g2);overflow:hidden;}
+.ll{display:flex;align-items:center;gap:12px;}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.ln{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--t2);}
+.lr{display:flex;align-items:center;gap:16px;}
+.lc{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--cream);min-width:24px;text-align:right;}
+.lbt{width:140px;height:3px;background:var(--g2);overflow:hidden;}
 .lbf{height:100%;}
 
 /* SIGNAL GRID */
@@ -217,7 +223,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 
 /* DETAIL PANEL */
 .dp-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:stretch;justify-content:flex-end;animation:fadeIn .15s ease;}
-.dp{width:480px;max-width:92vw;background:var(--g1);border-left:1px solid var(--border-mid);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .2s ease;}
+.dp{width:560px;max-width:92vw;background:var(--g1);border-left:1px solid var(--border-mid);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .2s ease;}
 .dp-head{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;background:var(--g2);}
 .dp-title{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--cream);margin-bottom:8px;letter-spacing:.01em;}
 .dp-meta{display:flex;gap:5px;flex-wrap:wrap;}
@@ -335,21 +341,27 @@ textarea{resize:vertical;min-height:60px;}
 <main class="main">
 
   <div class="view active" id="view-dashboard">
-    <div class="ph"><div class="pt">Executive Dashboard</div><div class="ps">Strategic overview · Current sprint only</div></div>
+    <div class="ph"><div><div class="pt">Executive Dashboard</div><div class="ps">Strategic overview · Current sprint only</div></div></div>
     <div class="mg" id="dm"></div>
-    <div class="sl" style="margin-top:24px">Portfolio Balance</div>
-    <div class="card" style="padding:20px 24px;margin-bottom:0;">
-      <div class="pg">
-        <div class="dw"><canvas id="donut-chart" width="180" height="180"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
-        <div class="legend" id="dl"></div>
+    <div class="dash-top">
+      <div class="dash-main">
+        <div class="sl" style="margin-top:0">Current Sprint</div>
+        <div id="dsc"></div>
+        <div class="sl">Active Bets in Current Sprint</div>
+        <div class="tw"><table class="dt" id="dbt"><thead><tr><th>Bet</th><th>Owner</th><th>Status</th><th>Signal</th><th>Last Decision</th></tr></thead><tbody></tbody></table></div>
+        <div class="sl">Decision Focus</div>
+        <div class="sg" id="dsg"></div>
+      </div>
+      <div class="dash-side">
+        <div class="sl" style="margin-top:0">Portfolio Balance</div>
+        <div class="card" style="padding:24px;">
+          <div class="pg">
+            <div class="dw"><canvas id="donut-chart" width="200" height="200"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
+            <div class="legend" id="dl"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="sl">Current Sprint</div>
-    <div id="dsc"></div>
-    <div class="sl">Active Bets in Current Sprint</div>
-    <div class="tw"><table class="dt" id="dbt"><thead><tr><th>Bet</th><th>Owner</th><th>Status</th><th>Signal</th><th>Last Decision</th></tr></thead><tbody></tbody></table></div>
-    <div class="sl">Decision Focus</div>
-    <div class="sg" id="dsg"></div>
   </div>
 
   <div class="view" id="view-sprints">
@@ -434,7 +446,7 @@ function renderDonut(){
   const labs=Object.keys(c),data=Object.values(c),cols=labs.map(l=>DC[l]);
   const ctx=document.getElementById('donut-chart').getContext('2d');
   if(chart)chart.destroy();
-  chart=new Chart(ctx,{type:'doughnut',data:{labels:labs,datasets:[{data,backgroundColor:cols,borderWidth:0,hoverOffset:4}]},options:{cutout:'70%',responsive:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}},animation:{duration:500}}});
+  chart=new Chart(ctx,{type:'doughnut',data:{labels:labs,datasets:[{data,backgroundColor:cols,borderWidth:0,hoverOffset:5}]},options:{cutout:'70%',responsive:false,width:200,height:200,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}},animation:{duration:500}}});
   document.getElementById('dl').innerHTML=labs.map((l,i)=>{
     const pct=tot?Math.round(data[i]/tot*100):0;
     return`<div class="li"><div class="ll"><div class="ld" style="background:${cols[i]}"></div><div><div class="ln">${l}</div><div class="lbt"><div class="lbf" style="width:${pct}%;background:${cols[i]}"></div></div></div></div><div class="lr"><div class="lc">${data[i]}</div></div></div>`;
@@ -496,12 +508,12 @@ function renderEvidence(){
 function mf(f,filter){if(filter==='HR/LD')return f==='HR'||f==='L&D';return f===filter;}
 function renderFn(filter,id){
   const bets=S.bets.filter(b=>(b.functions||[]).some(f=>mf(f,filter)));
-  document.getElementById(id).innerHTML=bets.length?bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join(''):'<div class="empty">No bets assigned to this function.</div>';
+  document.getElementById(id).innerHTML=bets.length?`<div class="fn-grid">${bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join('')}</div>`:'<div class="empty">No bets assigned to this function.</div>';
 }
 
 function renderMU(mu,id){
   const bets=S.bets.filter(b=>b.mu===mu);
-  document.getElementById(id).innerHTML=bets.length?bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join(''):'<div class="empty">No bets assigned to this MU.</div>';
+  document.getElementById(id).innerHTML=bets.length?`<div class="fn-grid">${bets.map(b=>`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.owner}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div class="fnt">${mutag(b.mu)} ${ftags(b.functions||[])}</div></div>`).join('')}</div>`:'<div class="empty">No bets assigned to this MU.</div>';
 }
 
 function openDet(id){
