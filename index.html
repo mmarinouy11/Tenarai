@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TENARAI · Enterprise Sprinting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:#0D0D0B; --cream:#F0EDE4;
+  --g1:#1A1A18; --g2:#2C2C28; --g3:#4A4A44; --g4:#6B6B63; --g5:#9A9A90; --g6:#C8C5BC;
+  --lime:#AADC00; --lime-lt:#D4F060; --lime-dk:#88B200;
+  --bg:var(--black); --surface:var(--g1); --s2:var(--g2); --s3:var(--g3);
+  --border:rgba(255,255,255,0.07); --border-mid:rgba(255,255,255,0.12);
+  --text:var(--cream); --t2:var(--g6); --t3:var(--g5);
+  --font:'Barlow',sans-serif; --mono:'Barlow Condensed',sans-serif;
+  --r:6px; --rl:10px;
+}
+/* LIGHT THEME */
+body.light {
+  --bg:#E8E5DC; --surface:#F5F3EE; --s2:#ECEAE2; --s3:#DEDAD0;
+  --border:rgba(0,0,0,0.12); --border-mid:rgba(0,0,0,0.20);
+  --text:#0D0D0B; --t2:#2C2C28; --t3:#6B6B63;
+  --g1:#F5F3EE; --g2:#ECEAE2; --g3:#DEDAD0; --g4:#6B6B63; --g5:#888780; --g6:#2C2C28;
+}
+body.light .nb:hover{background:var(--g2);}
+body.light .nb.active{background:rgba(136,178,0,0.12);color:var(--lime-dk);}
+body.light .sb-module{color:var(--lime-dk);}
+body.light .na{color:var(--lime-dk);}
+body.light .fd{background:var(--lime-dk);}
+body.light .pt-fill{background:var(--lime-dk);}
+body.light .sp-pct{color:var(--lime-dk);}
+body.light .dsl{color:var(--lime-dk);border-bottom-color:rgba(136,178,0,0.25);}
+body.light .csc{color:var(--lime-dk);}
+body.light .eva{color:var(--lime-dk);}
+body.light .bc:hover{border-color:var(--lime-dk);}
+body.light .btn-p{background:var(--lime-dk);border-color:var(--lime-dk);}
+body.light .btn-p:hover{background:var(--lime);border-color:var(--lime);}
+body.light .b-active{background:rgba(136,178,0,0.1);color:var(--lime-dk);}
+body.light .b-explore{background:rgba(56,189,248,.12);color:#0284C7;}
+body.light .b-validate{background:rgba(234,160,18,.12);color:#92400E;}
+body.light .b-scale{background:rgba(0,200,100,.1);color:#166534;}
+body.light .b-kill{background:rgba(230,50,50,.1);color:#991B1B;}
+body.light .b-continue{background:rgba(100,150,255,.12);color:#1D4ED8;}
+body.light .b-pivot{background:rgba(234,160,18,.12);color:#92400E;}
+body.light .b-scaleD{background:rgba(0,200,100,.1);color:#166534;}
+body.light .b-killD{background:rgba(230,50,50,.1);color:#991B1B;}
+body.light .b-planned{background:rgba(100,150,255,.1);color:#1D4ED8;}
+body.light .b-closed{background:rgba(0,0,0,.06);color:#6B6B63;}
+body.light{--bg:#F5F2EB;}
+body.light .main{background-color:#FFFFFF;}
+body.light .ss{color:#166534;} body.light .su{color:#92400E;} body.light .sw{color:#991B1B;}
+body.light .ck{color:#991B1B;}
+body.light .pt{color:#0D0D0B;}
+body.light .sn{color:#0D0D0B;}
+body.light .sb-wordmark{color:#0D0D0B;}
+body.light .dp-title{color:#0D0D0B;}
+body.light .fnn{color:#0D0D0B;}
+body.light .bcn{color:#0D0D0B;}
+body.light .kch{color:#6B6B63;}
+body.light .mv{color:#0D0D0B;}
+body.light .dt2{color:#0D0D0B;}
+body.light .mt{color:#0D0D0B;}
+body.light .dfv{color:#0D0D0B;}
+body.light .evi{color:#0D0D0B;}
+body.light .pu-name{color:#0D0D0B;}
+body.light .sprint-card.ia{border-left-color:var(--lime-dk);}
+body.light .card{border-left-color:var(--lime-dk);}
+body.light .tw{border-left-color:var(--lime-dk);}
+body.light .kc{border-left-color:var(--lime-dk);}
+body.light .sgc{border-left-color:var(--lime-dk);}
+body.light .fnc{border-left-color:var(--lime-dk);}
+body.light .mg{border-left-color:var(--lime-dk);}
+/* theme toggle btn */
+.theme-toggle{display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:10px;color:var(--g4);letter-spacing:.05em;padding:0;transition:color .12s;}
+.theme-toggle:hover{color:var(--text);}
+.toggle-track{width:28px;height:15px;border-radius:8px;background:var(--g3);position:relative;transition:background .2s;flex-shrink:0;}
+body.light .toggle-track{background:var(--lime-dk);}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:var(--cream);transition:transform .2s;}
+body.light .toggle-thumb{transform:translateX(13px);background:#fff;}
+html{
+  --fs-base:15px;
+  font-size:var(--fs-base);
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:1rem;line-height:1.55;}
+.app{display:flex;height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:240px;min-width:240px;background:var(--g1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
+.sb-brand{padding:22px 20px 16px;border-bottom:1px solid var(--border);}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.sb-wordmark{font-family:var(--mono);font-size:1.375rem;font-weight:600;letter-spacing:0.04em;color:var(--cream);}
+.sb-module{font-family:var(--mono);font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--lime);margin-bottom:2px;}
+.sb-sub{font-size:0.8125rem;color:var(--t3);}
+.nav-grp{padding:12px 10px 4px;}
+.nav-lbl{font-family:var(--mono);font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--g4);padding:0 8px;margin-bottom:4px;}
+.nb{display:flex;align-items:center;gap:9px;width:100%;padding:7px 8px;border:none;background:none;border-radius:var(--r);font-family:var(--font);font-size:0.9375rem;color:var(--t3);cursor:pointer;text-align:left;transition:all .12s;}
+.nb:hover{background:var(--g2);color:var(--text);}
+.nb.active{background:rgba(170,220,0,0.1);color:var(--lime);}
+.nd{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.na{color:var(--lime);font-size:1.0625rem;line-height:1;font-weight:300;}
+.sb-foot{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--g4);font-family:var(--mono);letter-spacing:.05em;}
+.fd{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lime);margin-right:5px;vertical-align:middle;}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;background:var(--bg);}
+.view{display:none;padding:36px 40px 64px;width:100%;}
+.view.active{display:block;}
+.ph{margin-bottom:28px;border-bottom:1px solid var(--border);padding-bottom:18px;display:flex;align-items:flex-end;justify-content:space-between;}
+.pt{font-family:var(--mono);font-size:1.75rem;font-weight:600;color:var(--cream);margin-bottom:3px;letter-spacing:.01em;}
+.ps{font-size:0.875rem;color:var(--t3);}
+.sl{font-family:var(--mono);font-size:0.8125rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:12px;margin-top:32px;}
+.sl:first-of-type{margin-top:0;}
+
+/* DASHBOARD TOP BAND */
+.dash-band{display:grid;grid-template-columns:1fr 500px;gap:16px;align-items:stretch;margin-bottom:0;}
+.dash-metrics-wrap{display:flex;flex-direction:column;gap:12px;}
+.dash-donut-wrap{display:flex;flex-direction:column;justify-content:center;}
+.sprint-inline{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:16px 20px;display:flex;align-items:flex-start;gap:24px;flex:1;}
+.sprint-inline-left{flex:1;min-width:0;}
+.sprint-inline-name{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--cream);margin-bottom:2px;}
+.sprint-inline-dates{font-size:0.8125rem;color:var(--t3);}
+.sprint-inline-focus{font-size:0.9375rem;color:var(--t2);margin-top:8px;line-height:1.5;}
+.sprint-inline-signals{margin-top:10px;}
+.sprint-inline-signals-lbl{font-family:var(--mono);font-size:0.625rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:5px;}
+.sprint-inline-signal-item{font-size:0.875rem;color:var(--t2);padding:2px 0;display:flex;align-items:center;gap:6px;}
+.sprint-inline-signal-item::before{content:'';display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--lime);flex-shrink:0;}
+.sprint-inline-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;padding-top:2px;}
+.sprint-inline-pct{font-family:var(--mono);font-size:0.75rem;color:var(--lime);font-weight:500;}
+.pt-track{background:var(--g2);height:2px;overflow:hidden;width:120px;}
+.pt-fill{height:100%;background:var(--lime);transition:width .5s;}
+body.light .sprint-inline{background:var(--surface);}
+body.light .sprint-inline-name{color:#0D0D0B;}
+
+/* METRICS */
+.mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);overflow:hidden;margin-bottom:20px;}
+.mc{background:var(--surface);padding:20px 22px;}
+.mlb{font-family:var(--mono);font-size:0.8125rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:10px;}
+.mv{font-family:var(--mono);font-size:2.75rem;font-weight:600;color:var(--cream);line-height:1;}
+.ms{font-size:0.8125rem;color:var(--t3);margin-top:6px;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:0.75rem;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:3px;white-space:nowrap;}
+.b-active{background:rgba(170,220,0,.1);color:var(--lime);}
+.b-planned{background:rgba(100,150,255,.1);color:#6496FF;}
+.b-closed{background:rgba(255,255,255,.06);color:var(--g5);}
+.b-active-bet{background:rgba(56,189,248,.12);color:#38BDF8;}
+.b-scale{background:rgba(0,200,100,.1);color:#00C864;}
+.b-pivot{background:rgba(150,130,255,.15);color:#A090FF;}
+.b-done{background:rgba(52,211,153,.12);color:#34D399;}
+.b-kill{background:rgba(230,50,50,.1);color:#E63232;}
+
+/* SIGNAL */
+.signal{font-size:0.875rem;font-weight:500;white-space:nowrap;}
+.ss{color:#00C864;} .su{color:#EAA012;} .sw{color:#E63232;}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;font-family:var(--mono);font-size:0.75rem;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:3px;}
+.t-hr{background:rgba(150,130,255,.12);color:#A090FF;}
+.t-tag{background:rgba(100,150,255,.12);color:#6496FF;}
+.t-ld{background:rgba(234,160,18,.12);color:#EAA012;}
+.t-mkt{background:rgba(255,100,80,.1);color:#FF6450;}
+.t-del{background:rgba(34,211,238,.1);color:#22D3EE;}
+.t-mu1{background:rgba(244,114,182,.12);color:#F472B6;}
+.t-mu2{background:rgba(52,211,153,.12);color:#34D399;}
+.t-mu3{background:rgba(251,191,36,.12);color:#FBBF24;}
+.t-mu4{background:rgba(167,139,250,.12);color:#A78BFA;}
+.t-acc{background:rgba(0,200,100,.1);color:#00C864;}
+.t-new{background:rgba(100,150,255,.12);color:#6496FF;}
+.t-int{background:rgba(150,130,255,.12);color:#A090FF;}
+.t-dm{background:rgba(34,211,238,.1);color:#22D3EE;}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);border-left:2px solid var(--lime);}
+.sprint-card{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:20px;margin-bottom:10px;transition:background .15s;}
+.sprint-card:hover{background:var(--g2);}
+.sprint-card.ia{border-left:2px solid var(--lime);}
+.tw{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;border-left:2px solid var(--lime);}
+.kc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:12px;min-height:180px;border-left:2px solid var(--lime);}
+.sgc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;border-left:2px solid var(--lime);}
+.fnc{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid var(--lime);border-radius:var(--rl);padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:background .15s;}
+.fnc:hover{background:var(--g2);}
+
+/* SPRINT CARD */
+.sh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}
+.sn{font-family:var(--mono);font-size:1.0625rem;font-weight:600;color:var(--cream);letter-spacing:.02em;}
+.sd{font-size:0.8125rem;color:var(--t3);margin-top:3px;}
+.sfl{font-family:var(--mono);font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:3px;}
+.sf{font-size:0.9375rem;color:var(--t2);line-height:1.6;}
+.sp-pct{font-family:var(--mono);font-size:0.8125rem;color:var(--lime);margin-top:4px;font-weight:500;}
+.s-stats{display:flex;gap:16px;margin-top:12px;font-size:0.8125rem;color:var(--t3);font-family:var(--mono);letter-spacing:.04em;}
+
+/* TABLE */
+.dt{width:100%;border-collapse:collapse;font-size:0.9375rem;}
+.dt th{text-align:left;font-family:var(--mono);font-size:0.8125rem;font-weight:600;text-transform:uppercase;letter-spacing:.10em;color:var(--g4);padding:11px 14px;border-bottom:1px solid var(--border);background:var(--g1);}
+.dt td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text);}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr.cl{cursor:pointer;}
+.dt tr.cl:hover td{background:var(--g2);}
+
+/* KANBAN */
+.kanban{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;}
+.kch{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:0.8125rem;font-weight:600;text-transform:uppercase;letter-spacing:.10em;color:var(--g4);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.kcc{background:var(--g2);border-radius:3px;padding:1px 6px;font-size:0.75rem;color:var(--t3);}
+.bc{background:var(--g2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;margin-bottom:7px;cursor:pointer;transition:border-color .12s;}
+.bc:hover{border-color:var(--lime);}
+.bcn{font-size:0.9375rem;font-weight:500;color:var(--cream);margin-bottom:4px;}
+.bcs{font-size:0.75rem;color:var(--g4);margin-bottom:6px;font-family:var(--mono);}
+.bcm{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+
+/* PORTFOLIO DONUT */
+.pg{display:flex;flex-direction:column;align-items:center;gap:24px;width:100%;padding-top:0;}
+.dw{position:relative;width:190px;height:190px;flex-shrink:0;}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
+.dt2{font-family:var(--mono);font-size:2.375rem;font-weight:600;color:var(--cream);line-height:1;}
+.dl{font-family:var(--mono);font-size:0.625rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;width:100%;}
+.li{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--g2);border-radius:var(--r);transition:background .12s;}
+.li:hover{background:var(--g3);}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.ln{font-family:var(--mono);font-size:0.8125rem;font-weight:500;color:var(--t2);flex:1;}
+.lbar{display:none;}
+.lbf{display:none;}
+.lc{font-family:var(--mono);font-size:0.9375rem;font-weight:600;color:var(--cream);}
+
+/* PENDING UPDATES */
+.pu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.pu-card{background:var(--surface);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-left:2px solid #E63232;border-radius:var(--rl);padding:14px 16px;cursor:pointer;transition:background .15s;}
+.pu-card:hover{background:var(--g2);}
+.pu-card.warn{border-left-color:#EAA012;}
+.pu-name{font-size:0.9375rem;font-weight:500;color:var(--cream);margin-bottom:4px;}
+.pu-meta{font-size:0.8125rem;color:var(--t3);font-family:var(--mono);}
+.pu-since{font-family:var(--mono);font-size:0.8125rem;font-weight:600;margin-top:6px;}
+.pu-since.overdue{color:#E63232;}
+.pu-since.warn{color:#EAA012;}
+
+/* SIGNAL GRID */
+.sg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.sgch{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:0.9375rem;font-weight:600;color:var(--t2);margin-bottom:10px;letter-spacing:.04em;}
+.sigd{width:7px;height:7px;border-radius:50%;}
+
+/* DETAIL PANEL */
+.dp-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:stretch;justify-content:flex-end;animation:fadeIn .15s ease;}
+.dp{width:560px;max-width:92vw;background:var(--g1);border-left:1px solid var(--border-mid);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .2s ease;}
+.dp-head{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;background:var(--g2);}
+.dp-title{font-family:var(--mono);font-size:1.125rem;font-weight:600;color:var(--cream);margin-bottom:8px;letter-spacing:.01em;}
+.dp-meta{display:flex;gap:5px;flex-wrap:wrap;}
+.dp-body{padding:20px;overflow-y:auto;flex:1;}
+.ds{margin-bottom:20px;}
+.dsl{font-family:var(--mono);font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--lime);padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid rgba(170,220,0,.2);}
+.df{margin-bottom:10px;}
+.dfl{font-family:var(--mono);font-size:0.6875rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g5);margin-bottom:4px;}
+.dfv{font-size:0.9375rem;color:var(--cream);line-height:1.6;}
+.d2c{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ip{display:inline-flex;align-items:center;background:var(--g2);border:1px solid var(--border);border-radius:3px;padding:3px 9px;font-size:0.8125rem;color:var(--t2);margin:2px;}
+.ir{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.ii{background:var(--g2);border-radius:var(--r);padding:10px 12px;}
+.iil{font-family:var(--mono);font-size:0.6875rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g5);margin-bottom:5px;}
+.iiv{font-family:var(--mono);font-size:1rem;font-weight:600;}
+.ih{color:var(--cream);} .im{color:#EAA012;} .ilo{color:var(--g4);}
+.ev{background:var(--g2);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;border-left:2px solid var(--border-mid);}
+.ev.ekl{border-left-color:#E63232;} .ev.esc{border-left-color:var(--lime);} .ev.eco{border-left-color:#6496FF;} .ev.epi{border-left-color:#EAA012;}
+.evd{font-family:var(--mono);font-size:0.75rem;color:var(--g5);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+.evi{font-size:0.9375rem;color:var(--cream);line-height:1.6;}
+.eva{font-family:var(--mono);font-size:0.8125rem;color:var(--cream);margin-top:5px;font-weight:500;}
+.cb{width:30px;height:30px;flex-shrink:0;border:1px solid var(--border);border-radius:var(--r);background:var(--g3);cursor:pointer;font-size:1.125rem;display:flex;align-items:center;justify-content:center;color:var(--g5);transition:all .1s;}
+.cb:hover{background:var(--g4);color:var(--cream);}
+
+/* FN CARDS */
+.fnh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
+.fnn{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--cream);}
+.fnm{font-size:0.875rem;color:var(--t3);margin-top:2px;}
+.fno{font-size:0.9375rem;color:var(--t2);line-height:1.6;}
+.fnt{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;}
+.fn-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+
+/* MODAL / WIZARD */
+.mb{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:300;display:flex;align-items:center;justify-content:center;animation:fadeIn .15s ease;}
+.wz{background:var(--g1);border:1px solid var(--border-mid);border-radius:var(--rl);display:grid;grid-template-columns:280px 1fr;width:820px;max-width:96vw;max-height:90vh;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5);animation:scaleIn .18s ease;}
+.wz-side{background:var(--g2);padding:28px 24px;overflow-y:auto;border-right:1px solid var(--border);max-height:90vh;}
+.wz-main{padding:28px 28px 20px;overflow-y:auto;display:flex;flex-direction:column;max-height:90vh;}
+.wz-tag{font-family:var(--mono);font-size:0.6875rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-bottom:10px;}
+.wz-title{font-family:var(--mono);font-size:1.125rem;font-weight:600;color:var(--cream);margin-bottom:8px;letter-spacing:.01em;}
+.wz-rule-block{margin-bottom:18px;}
+.wz-rule-label{font-family:var(--mono);font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--g4);margin-bottom:6px;}
+.wz-warn{background:rgba(230,50,50,.08);border-left:2px solid #E63232;border-radius:4px;padding:10px 12px;margin-top:16px;}
+.wz-warn-label{font-family:var(--mono);font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#E63232;margin-bottom:5px;}
+.wz-field{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+.wz-field-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+.wz-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.wz-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.wz-check-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;}
+body.light .wz-side{background:var(--g3);}
+body.light .wz-title{color:#0D0D0B;}
+body.light .wz-form-title{color:#0D0D0B;}
+body.light #me-bet-context{background:var(--g3);}
+.modal{background:var(--g1);border:1px solid var(--border-mid);border-radius:var(--rl);padding:24px;width:560px;max-width:94vw;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.5);animation:scaleIn .18s ease;}
+.mt{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--cream);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.ff{display:flex;flex-direction:column;gap:4px;}
+.ff.full{grid-column:1/-1;}
+.fl{font-family:var(--mono);font-size:0.625rem;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);}
+input[type="text"],input[type="date"],select,textarea{padding:8px 11px;font-size:0.9375rem;border:1px solid var(--border-mid);border-radius:var(--r);background:var(--g2);color:var(--cream);font-family:var(--font);outline:none;width:100%;transition:border-color .12s;}
+input:focus,select:focus,textarea:focus{border-color:var(--lime);}
+select option{background:var(--g2);}
+textarea{resize:vertical;min-height:60px;}
+.cr{display:flex;gap:14px;flex-wrap:wrap;margin-top:5px;}
+.cr label{display:flex;align-items:center;gap:5px;font-size:0.9375rem;cursor:pointer;color:var(--t2);}
+.br{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
+.btn{padding:8px 16px;border-radius:var(--r);font-family:var(--mono);font-size:0.875rem;font-weight:600;letter-spacing:.04em;cursor:pointer;border:1px solid var(--border-mid);background:var(--g2);color:var(--t2);transition:all .1s;}
+.btn:hover{background:var(--g3);color:var(--cream);}
+.btn-p{background:var(--lime);color:var(--black);border-color:var(--lime);}
+.btn-p:hover{background:var(--lime-lt);border-color:var(--lime-lt);}
+.wz-intro{font-size:0.9375rem;color:var(--t2);line-height:1.7;margin-bottom:20px;}
+.wz-rule{font-size:0.875rem;color:var(--t2);line-height:1.6;padding-left:12px;border-left:1px solid var(--border-mid);margin-bottom:4px;}
+.wz-example{font-size:0.8125rem;color:var(--g4);font-style:italic;padding-left:12px;margin-top:2px;}
+.wz-warn-item{font-size:0.875rem;color:var(--t2);line-height:1.6;}
+.wz-form-title{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--cream);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.wz-label{font-family:var(--mono);font-size:0.6875rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g4);}
+.wz-hint{font-size:0.75rem;color:var(--g4);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.wz-check-row label{display:flex;align-items:center;gap:5px;font-size:0.9375rem;cursor:pointer;color:var(--t2);}
+
+/* FILTER BAR */
+.filter-bar{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.filter-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.filter-lbl{font-family:var(--mono);font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);min-width:44px;}
+.fpill{padding:3px 10px;border-radius:20px;border:1px solid var(--border-mid);background:transparent;color:var(--t3);font-family:var(--mono);font-size:0.75rem;font-weight:500;cursor:pointer;transition:all .12s;}
+.fpill:hover{border-color:var(--g4);color:var(--t2);}
+.fpill.active{background:var(--lime);color:var(--black);border-color:var(--lime);}
+
+/* MISC */
+.empty{font-size:0.9375rem;color:var(--g4);padding:12px 0;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{transform:translateX(32px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes scaleIn{from{transform:scale(.97);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <div class="sb-wordmark">Tenarai</div>
+    </div>
+    <div class="sb-module">Enterprise Sprinting</div>
+    <div class="sb-sub">Strategic Control System</div>
+  </div>
+  <nav>
+    <div class="nav-grp">
+      <div class="nav-lbl">Core</div>
+      <button class="nb active" onclick="showView('dashboard',this)"><span class="nd" style="background:var(--lime)"></span>Executive Dashboard</button>
+      <button class="nb" onclick="showView('sprints',this)"><span class="nd" style="background:#6496FF"></span>Enterprise Sprints</button>
+      <button class="nb" onclick="showView('bets-board',this)"><span class="nd" style="background:#EAA012"></span>Bets — Board</button>
+      <button class="nb" onclick="showView('bets-table',this)"><span class="nd" style="background:var(--g4)"></span>Bets — Full Table</button>
+      <button class="nb" onclick="showView('evidence',this)"><span class="nd" style="background:#A090FF"></span>Evidence Log</button>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-lbl">Actions</div>
+      <button class="nb" onclick="openModal('sprint')"><span class="na">+</span>New Sprint</button>
+      <button class="nb" onclick="openModal('bet')"><span class="na">+</span>New Strategic Bet</button>
+      <button class="nb" onclick="openModal('signal')"><span class="na">+</span>Signal Check</button>
+      <button class="nb" onclick="openModal('evidence')"><span class="na">+</span>Monthly Review</button>
+      <button class="nb" onclick="openModal('closure')"><span class="na">+</span>Close Sprint</button>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-lbl">By Function</div>
+      <button class="nb" onclick="showView('fn-hr',this)"><span class="nd" style="background:#A090FF"></span>HR</button>
+      <button class="nb" onclick="showView('fn-tag',this)"><span class="nd" style="background:#6496FF"></span>TAG — Recruiting</button>
+      <button class="nb" onclick="showView('fn-ld',this)"><span class="nd" style="background:#EAA012"></span>L&amp;D</button>
+      <button class="nb" onclick="showView('fn-mkt',this)"><span class="nd" style="background:#FF6450"></span>Marketing</button>
+      <button class="nb" onclick="showView('fn-delivery',this)"><span class="nd" style="background:#22D3EE"></span>Delivery</button>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-lbl">By MU</div>
+      <button class="nb" onclick="showView('mu-1',this)"><span class="nd" style="background:#F472B6"></span>MU-1</button>
+      <button class="nb" onclick="showView('mu-2',this)"><span class="nd" style="background:#34D399"></span>MU-2</button>
+      <button class="nb" onclick="showView('mu-3',this)"><span class="nd" style="background:#FBBF24"></span>MU-3</button>
+      <button class="nb" onclick="showView('mu-4',this)"><span class="nd" style="background:#A78BFA"></span>MU-4</button>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="theme-lbl">Dark</span>
+      </button>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button onclick="setFontSize(-1)" style="width:22px;height:22px;border-radius:var(--r);border:1px solid var(--border-mid);background:var(--g2);color:var(--t2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--mono);line-height:1;">−</button>
+        <span id="fs-lbl" style="font-family:var(--mono);font-size:0.75rem;color:var(--g4);min-width:28px;text-align:center;">15px</span>
+        <button onclick="setFontSize(1)" style="width:22px;height:22px;border-radius:var(--r);border:1px solid var(--border-mid);background:var(--g2);color:var(--t2);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--mono);line-height:1;">+</button>
+      </div>
+    </div>
+    <div><span class="fd"></span><span id="si">Loading...</span></div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="view active" id="view-dashboard">
+    <div class="ph"><div><div class="pt">Executive Dashboard</div><div class="ps">Strategic overview · Current sprint only</div></div></div>
+
+    <!-- TOP BAND: metrics + donut, same height -->
+    <div class="dash-band">
+      <div class="dash-metrics-wrap">
+        <div class="mg" id="dm"></div>
+        <div id="dsc"></div>
+      </div>
+      <div class="card dash-donut-wrap" style="padding:0 20px 16px;">
+        <div class="sl" style="margin-top:5px;margin-bottom:8px;">Portfolio Balance</div>
+        <div class="pg">
+          <div class="dw"><canvas id="donut-chart" width="190" height="190"></canvas><div class="dc"><div class="dt2" id="dt">0</div><div class="dl">bets</div></div></div>
+          <div class="legend" id="dl"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl">Active Bets in Current Sprint</div>
+    <div class="tw"><table class="dt" id="dbt"><thead><tr><th>Bet</th><th>Owner</th><th>Status</th><th>Signal</th><th>Last Reviewed</th></tr></thead><tbody></tbody></table></div>
+
+    <div class="sl">Decision Focus</div>
+    <div class="sg" id="dsg"></div>
+
+    <div class="sl">Pending — Monthly Review</div>
+    <div id="dpend-ev"></div>
+
+    <div class="sl">Pending — Signal Check</div>
+    <div id="dpend-sc"></div>
+  </div>
+
+  <div class="view" id="view-sprints">
+    <div class="ph"><div class="pt">Enterprise Sprints</div><div class="ps">Time-boxed strategic cycles</div></div>
+    <div id="sl"></div>
+  </div>
+
+  <div class="view" id="view-bets-board">
+    <div class="ph"><div class="pt">Strategic Bets — Board</div><div class="ps">Grouped by status · Click any bet to expand</div></div>
+    <div class="kanban" id="kb"></div>
+  </div>
+
+  <div class="view" id="view-bets-table">
+    <div class="ph"><div class="pt">Strategic Bets — Full Table</div><div class="ps">All bets · Click any row to expand</div></div>
+    <div class="filter-bar" id="fbt-filters">
+      <div class="filter-group" id="fg-status">
+        <span class="filter-lbl">Status</span>
+        <button class="fpill active" onclick="setTableFilter('status',null,this)">All</button>
+        <button class="fpill" onclick="setTableFilter('status','Active',this)">Active</button>
+        <button class="fpill" onclick="setTableFilter('status','Scaled',this)">Scaled</button>
+        <button class="fpill" onclick="setTableFilter('status','Pivoted',this)">Pivoted</button>
+        <button class="fpill" onclick="setTableFilter('status','Done',this)">Done</button>
+        <button class="fpill" onclick="setTableFilter('status','Killed',this)">Killed</button>
+      </div>
+      <div class="filter-group" id="fg-signal">
+        <span class="filter-lbl">Signal</span>
+        <button class="fpill active" onclick="setTableFilter('signal',null,this)">All</button>
+        <button class="fpill" onclick="setTableFilter('signal','Strong',this)">Strong</button>
+        <button class="fpill" onclick="setTableFilter('signal','Unclear',this)">Unclear</button>
+        <button class="fpill" onclick="setTableFilter('signal','Weak',this)">Weak</button>
+      </div>
+      <div class="filter-group" id="fg-owner">
+        <span class="filter-lbl">Owner</span>
+      </div>
+    </div>
+    <div class="tw"><table class="dt" id="fbt"><thead><tr><th>Name</th><th>Sprint</th><th>Owner Area</th><th>Contact</th><th>Status</th><th>Signal</th><th>Impact</th><th>Alignment</th></tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="view" id="view-evidence">
+    <div class="ph"><div class="pt">Monthly Evidence Log</div><div class="ps">Signal tracking and decisions</div></div>
+    <div class="tw"><table class="dt" id="et"><thead><tr><th>Date</th><th>Bet</th><th>Actual</th><th>Insight</th><th>New Status</th></tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="view" id="view-fn-hr"><div class="ph"><div class="pt">HR — Bets</div><div class="ps">Bets owned by or requiring alignment from HR</div></div><div id="fhr"></div></div>
+  <div class="view" id="view-fn-tag"><div class="ph"><div class="pt">TAG — Recruiting Bets</div><div class="ps">Bets owned by or requiring alignment from TAG</div></div><div id="ftag"></div></div>
+  <div class="view" id="view-fn-ld"><div class="ph"><div class="pt">L&amp;D — Bets</div><div class="ps">Bets owned by or requiring alignment from L&amp;D</div></div><div id="fld"></div></div>
+  <div class="view" id="view-fn-mkt"><div class="ph"><div class="pt">Marketing Bets</div><div class="ps">Bets owned by or requiring alignment from Marketing</div></div><div id="fmkt"></div></div>
+  <div class="view" id="view-fn-delivery"><div class="ph"><div class="pt">Delivery Bets</div><div class="ps">Bets owned by or requiring alignment from Delivery</div></div><div id="fdel"></div></div>
+  <div class="view" id="view-mu-1"><div class="ph"><div class="pt">MU-1 — Bets</div><div class="ps">Bets owned by or requiring alignment from MU-1</div></div><div id="fmu1"></div></div>
+  <div class="view" id="view-mu-2"><div class="ph"><div class="pt">MU-2 — Bets</div><div class="ps">Bets owned by or requiring alignment from MU-2</div></div><div id="fmu2"></div></div>
+  <div class="view" id="view-mu-3"><div class="ph"><div class="pt">MU-3 — Bets</div><div class="ps">Bets owned by or requiring alignment from MU-3</div></div><div id="fmu3"></div></div>
+  <div class="view" id="view-mu-4"><div class="ph"><div class="pt">MU-4 — Bets</div><div class="ps">Bets owned by or requiring alignment from MU-4</div></div><div id="fmu4"></div></div>
+
+</main>
+</div>
+
+<div id="dpb" style="display:none;" onclick="closeDet(event)"><div class="dp" id="dp"></div></div>
+<div id="modb" style="display:none;" onclick="if(event.target===this)closeModal()"><div class="modal" id="mod"></div></div>
+
+<script>
+const S={
+  sprints:[
+    {id:'s1',name:'Q1 FY27 Sprint',start:'2026-04-01',end:'2026-06-30',focus:'Accelerate delivery throughput and expand new business pipeline through AI-enabled capabilities.',signals:'Increased AI adoption in delivery · Stronger pipeline with AI-led offerings · Efficiency signals in key accounts',status:'Active'},
+    {id:'s2',name:'Q2 FY27 Sprint',start:'2026-07-01',end:'2026-09-30',focus:'Scale validated bets and consolidate internal capability gains.',status:'Planned'},
+    {id:'s3',name:'Q3 FY27 Sprint',start:'2026-10-01',end:'2026-12-31',focus:'Deepen market position and accelerate talent density across key MUs.',status:'Planned'},
+    {id:'s4',name:'Q4 FY27 Sprint',start:'2027-01-01',end:'2027-03-31',focus:'Close the fiscal year strong: revenue consolidation, capability lock-in, FY28 foundation.',status:'Planned'},
+    {id:'s0',name:'Q4 FY26 Sprint',start:'2026-01-01',end:'2026-03-31',focus:'Foundation: talent density, delivery baseline, and brand positioning.',status:'Closed'}
+  ],
+  bets:[
+    {id:'b1',name:'AI-Assisted Delivery Pods',sprint:'s1',ownerArea:'MU-1',ownerContact:'C. Vera',status:'Active',outcome:'Increase delivery efficiency by 15% in 90 days.',hypothesis:'Embedding AI copilots in 3 squads will reduce effort per feature.',whyNow:'Client pressure on speed + new tooling now mature enough to deploy.',indicators:['AI usage rate >60%','Cycle time reduction','Dev satisfaction ↑'],signal:'Strong',lastReviewed:'2026-04-04',lastNote:'Squads A and B strong. Squad C needs enablement.',killCriteria:'AI usage rate < 30% after 6 weeks.',scaleTrigger:'Cycle time reduction ≥ 20% across all 3 squads.',impactAreas:['Accounts','Delivery Model'],alignment:['HR','L&D','TAG','Marketing'],revenue:'High',margin:'Medium',importance:'High'},
+    {id:'b2',name:'Senior IC Density Program',sprint:'s1',ownerArea:'TAG',ownerContact:'L. Martínez',status:'Active',outcome:'Increase senior-to-mid ratio from 1:4 to 1:2 in key accounts.',hypothesis:'Higher IC seniority reduces PM overhead and increases client NPS.',whyNow:'Two strategic accounts at risk due to perceived quality gap.',indicators:['Senior fill rate','Client NPS delta','PM escalation count'],signal:'Unclear',lastReviewed:'2026-04-04',lastNote:'Market tighter than expected. Pipeline active.',killCriteria:'No improvement in client NPS after 60 days.',scaleTrigger:'NPS delta ≥ +8 and senior fill rate ≥ 70%.',impactAreas:['Accounts','Internal Capability'],alignment:['HR','MU-1','MU-2','L&D'],revenue:'High',margin:'High',importance:'High'},
+    {id:'b3',name:'MU Playbook Standardization',sprint:'s1',ownerArea:'HR',ownerContact:'R. Acosta',status:'Active',outcome:'Reduce onboarding time per MU from 3 weeks to 1 week.',hypothesis:'A standardized MU playbook eliminates context-switching and ramp time.',whyNow:'New MU formation rate is accelerating — inconsistency is a bottleneck.',indicators:['Onboarding time per MU','MU lead satisfaction','Ramp-to-first-delivery'],signal:'Strong',lastReviewed:'2026-04-01',lastNote:'Adoption tracking well across 2 MUs.',killCriteria:'Playbook adoption < 50% after 45 days.',scaleTrigger:'Onboarding time ≤ 7 days across 3 consecutive MU formations.',impactAreas:['Internal Capability','Delivery Model'],alignment:['L&D','MU-3','MU-4'],revenue:'Medium',margin:'High',importance:'High'},
+    {id:'b4',name:'Employer Brand Repositioning',sprint:'s1',ownerArea:'Marketing',ownerContact:'P. Suárez',status:'Active',outcome:'Increase qualified inbound applications by 25% in 60 days.',hypothesis:'Repositioning as an AI-native firm attracts top-tier talent and accelerates TAG pipeline.',whyNow:'Market noise is high; first movers on AI narrative capture talent attention.',indicators:['Inbound app volume','Application quality score','Brand mention volume'],signal:'Unclear',lastReviewed:'2026-04-01',lastNote:'Brand narrative live. Too early for signal.',killCriteria:'No measurable increase in qualified applications after 45 days.',scaleTrigger:'Inbound apps ↑ 25% + quality score ≥ 7/10.',impactAreas:['New Business','Internal Capability'],alignment:['TAG','HR'],revenue:'Medium',margin:'Medium',importance:'High'},
+    {id:'b5',name:'New Logo Outbound Engine',sprint:'s1',ownerArea:'MU-2',ownerContact:'M. Torres',status:'Killed',outcome:'Generate 5 qualified enterprise pipeline opportunities in Q3.',hypothesis:'A structured outbound motion with personalized decks converts cold contacts faster.',whyNow:'Revenue concentration risk — top 2 clients = 60% of revenue.',indicators:['Outbound meetings booked','Pipeline value created','Conversion rate'],signal:'Weak',lastReviewed:'2026-04-05',lastNote:'1 meeting from 100 contacts. Below kill threshold.',killCriteria:'< 2 qualified meetings from first 100 outbound contacts.',scaleTrigger:'5+ qualified opportunities created within 60 days.',impactAreas:['New Business'],alignment:['Marketing'],revenue:'High',margin:'Low',importance:'Medium'}
+  ],
+  evidence:[
+    {id:'e1',bet:'b1',date:'2026-04-04',actual:'Usage rate at 52% — above target in squads A and B.',insight:'Squad C lagging due to tooling friction; requires dedicated enablement session.',newStatus:'Active',action:'L&D to run focused session for Squad C in week 5.'},
+    {id:'e2',bet:'b2',date:'2026-04-04',actual:'Pipeline built but no placement yet; 3 candidates in final round.',insight:'Market tighter than expected for senior React + AI profiles.',newStatus:'Active',action:'TAG to expand sourcing to LATAM and Iberia markets.'},
+    {id:'e3',bet:'b5',date:'2026-04-05',actual:'1 meeting booked — well below threshold.',insight:'ICP definition too broad; messaging not resonating with mid-market segment.',newStatus:'Killed',action:'Kill this bet. Redirect Marketing capacity to Employer Brand bet.'}
+  ],
+  signalChecks:[]
+};
+
+let chart=null;
+const GB=id=>S.bets.find(b=>b.id===id);
+const GS=id=>S.sprints.find(s=>s.id===id);
+const GA=()=>S.sprints.find(s=>s.status==='Active');
+const V=id=>document.getElementById(id)?.value||'';
+const DC={Active:'#38BDF8',Scaled:'#00C864',Pivoted:'#A090FF',Done:'#34D399',Killed:'#E63232'};
+
+function animateCount(el,target,duration=700,delay=0){
+  setTimeout(()=>{
+    const start=performance.now();
+    function step(now){
+      const p=Math.min((now-start)/duration,1);
+      const ease=1-Math.pow(1-p,3); // ease-out cubic
+      el.textContent=Math.round(ease*target);
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  },delay);
+}
+
+function sig(s){const m={Strong:'ss',Unclear:'su',Weak:'sw'};return`<span class="signal ${m[s]||''}">● ${s}</span>`;}
+function stb(s){const m={Active:'b-active-bet',Scaled:'b-scale',Pivoted:'b-pivot',Done:'b-done',Killed:'b-kill'};return`<span class="badge ${m[s]||''}">${s}</span>`;}
+function spb(s){const m={Active:'b-active',Planned:'b-planned',Closed:'b-closed'};return`<span class="badge ${m[s]||''}">${s}</span>`;}
+const AREA_CLS={'MU-1':'t-mu1','MU-2':'t-mu2','MU-3':'t-mu3','MU-4':'t-mu4','HR':'t-hr','TAG':'t-tag','L&D':'t-ld','Marketing':'t-mkt','Delivery':'t-del'};
+function areaTag(a){return a?`<span class="tag ${AREA_CLS[a]||'t-hr'}">${a}</span>`:'';}
+function alitags(arr){return(arr||[]).map(a=>areaTag(a)).join(' ');}
+// keep legacy aliases used in sidebar filter logic
+function ftags(f){return alitags(f);}
+function mutag(mu){return areaTag(mu);}
+function itag(a){const m={'Accounts':'t-acc','New Business':'t-new','Internal Capability':'t-int','Delivery Model':'t-dm'};return`<span class="tag ${m[a]||'t-acc'}">${a}</span>`;}
+function ilv(v){const m={High:'ih',Medium:'im',Low:'ilo'};return`<span class="iiv ${m[v]||''}">${v}</span>`;}
+
+function renderDonut(){
+  const c={Active:0,Scaled:0,Pivoted:0,Done:0,Killed:0};
+  S.bets.forEach(b=>{if(c[b.status]!==undefined)c[b.status]++;});
+  const tot=S.bets.length;
+  document.getElementById('dt').textContent=tot;
+  const labs=Object.keys(c),data=Object.values(c),cols=labs.map(l=>DC[l]);
+  const ctx=document.getElementById('donut-chart').getContext('2d');
+  if(chart)chart.destroy();
+  chart=new Chart(ctx,{type:'doughnut',data:{labels:labs,datasets:[{data,backgroundColor:cols,borderWidth:0,hoverOffset:5}]},options:{cutout:'68%',responsive:false,width:190,height:190,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}},animation:{duration:500}}});
+  document.getElementById('donut-chart').onclick=function(e){
+    const pts=chart.getElementsAtEventForMode(e,'nearest',{intersect:true},true);
+    if(pts.length) navigateToTableWithFilter(labs[pts[0].index]);
+  };
+  document.getElementById('donut-chart').style.cursor='pointer';
+  document.getElementById('dl').innerHTML=labs.map((l,i)=>{
+    return`<div class="li" onclick="navigateToTableWithFilter('${labs[i]}')" style="cursor:pointer;" title="View ${labs[i]} bets"><div class="ld" style="background:${cols[i]}"></div><div class="ln">${l}</div><div class="lc">${data[i]}</div></div>`;
+  }).join('');
+}
+
+function renderDash(){
+  const act=GA();
+  const ab=S.bets.filter(b=>b.sprint===act?.id&&b.status==='Active');
+  const metrics=[
+    {l:'Active Sprint',v:act?1:0,s:act?.name||'—'},
+    {l:'Bets in Sprint',v:ab.length,s:'currently testing'},
+    {l:'Strong Signal',v:ab.filter(b=>b.signal==='Strong').length,s:'candidates to scale'},
+    {l:'At Risk',v:ab.filter(b=>b.signal!=='Strong').length,s:'need a decision'}
+  ];
+  document.getElementById('dm').innerHTML=metrics.map((m,i)=>
+    `<div class="mc"><div class="mlb">${m.l}</div><div class="mv" id="mv-${i}">0</div><div class="ms">${m.s}</div></div>`
+  ).join('');
+  metrics.forEach((m,i)=>animateCount(document.getElementById(`mv-${i}`),m.v,700,i*80));
+  renderDonut();
+  if(act){
+    const now=new Date(),end=new Date(act.end),start=new Date(act.start);
+    const days=Math.max(0,Math.round((end-now)/86400000));
+    const pct=Math.max(0,Math.min(100,Math.round((1-days/Math.round((end-start)/86400000))*100)));
+    document.getElementById('dsc').innerHTML=`
+      <div class="sprint-inline">
+        <div class="sprint-inline-left">
+          <div class="sprint-inline-name">${act.name}</div>
+          <div class="sprint-inline-dates">${act.start} → ${act.end} · ${days} days remaining</div>
+          <div class="sprint-inline-focus">${act.focus}</div>
+          ${act.signals?`<div class="sprint-inline-signals">
+            <div class="sprint-inline-signals-lbl">Success Signals</div>
+            ${act.signals.split('·').map(s=>s.trim()).filter(Boolean).map(s=>`<div class="sprint-inline-signal-item">${s}</div>`).join('')}
+          </div>`:''}
+        </div>
+        <div class="sprint-inline-right">
+          ${spb(act.status)}
+          <div class="pt-track"><div class="pt-fill" style="width:${pct}%"></div></div>
+          <div class="sprint-inline-pct">${pct}% through sprint</div>
+        </div>
+      </div>`;
+  } else document.getElementById('dsc').innerHTML='<div class="empty">No active sprint.</div>';
+  document.querySelector('#dbt tbody').innerHTML=ab.length?ab.map(b=>`<tr class="cl" onclick="openDet('${b.id}')"><td style="font-weight:500">${b.name}</td><td>${areaTag(b.ownerArea)} <span style="color:var(--t3);font-size:11px">${b.ownerContact||''}</span></td><td>${stb(b.status)}</td><td>${sig(b.signal)}</td><td style="font-size:0.8125rem;color:var(--t3);font-family:var(--mono)">${b.lastReviewed||'—'}</td></tr>`).join(''):'<tr><td colspan="5" class="empty" style="padding:16px 14px">No active bets.</td></tr>';
+  const str=ab.filter(b=>b.signal==='Strong'),unc=ab.filter(b=>b.signal==='Unclear'),wk=S.bets.filter(b=>b.sprint===act?.id&&b.signal==='Weak');
+  document.getElementById('dsg').innerHTML=`
+    <div class="sgc"><div class="sgch"><span class="sigd" style="background:#00C864"></span>Candidates to Scale</div>${str.length?str.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div style="font-size:11px;color:var(--g4);margin-top:3px">${b.scaleTrigger}</div></div>`).join(''):'<div class="empty">None yet</div>'}</div>
+    <div class="sgc"><div class="sgch"><span class="sigd" style="background:#EAA012"></span>At Risk — Unclear Signal</div>${unc.length?unc.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div style="font-size:11px;color:var(--g4);margin-top:3px">Owner: ${b.owner}</div></div>`).join(''):'<div class="empty">None</div>'}</div>
+    <div class="sgc"><div class="sgch"><span class="sigd" style="background:#E63232"></span>Candidates to Kill</div>${wk.length?wk.map(b=>`<div class="bc" onclick="openDet('${b.id}')"><div class="bcn">${b.name}</div><div style="font-size:11px;color:var(--g4);margin-top:3px">${b.killCriteria}</div></div>`).join(''):'<div class="empty">None</div>'}</div>`;
+  document.getElementById('si').textContent=act?`Active: ${act.name}`:'No active sprint';
+  renderPending(act);
+}
+
+function renderPending(act){
+  const evEl=document.getElementById('dpend-ev');
+  const scEl=document.getElementById('dpend-sc');
+  if(!act){
+    evEl.innerHTML='<div class="empty">No active sprint.</div>';
+    scEl.innerHTML='';
+    return;
+  }
+  const now=new Date();
+  const activeBets=S.bets.filter(b=>b.sprint===act.id&&b.status==='Active');
+
+  // ── Monthly Review pending (>30 days since last evidence) ──
+  const evItems=activeBets.map(b=>{
+    const evs=S.evidence.filter(e=>e.bet===b.id).sort((a,z)=>new Date(z.date)-new Date(a.date));
+    const last=evs[0]?new Date(evs[0].date):null;
+    const lastStr=evs[0]?evs[0].date:null;
+    const daysSince=last?Math.round((now-last)/86400000):null;
+    return{b,lastStr,daysSince};
+  }).filter(({daysSince})=>daysSince===null||daysSince>30)
+    .sort((a,z)=>(z.daysSince||999)-(a.daysSince||999));
+
+  evEl.innerHTML=evItems.length
+    ? `<div class="pu-grid">${evItems.map(({b,lastStr,daysSince})=>{
+        const isNever=daysSince===null;
+        const cls=isNever||daysSince>60?'overdue':'warn';
+        const cardCls=isNever||daysSince>60?'':'warn';
+        const label=isNever?'Never reviewed':`Last review: ${lastStr} · ${daysSince}d ago`;
+        return`<div class="pu-card ${cardCls}" onclick="openModalForBet('evidence','${b.id}')">
+          <div class="pu-name">${b.name}</div>
+          <div class="pu-meta">${areaTag(b.ownerArea)} <span style="color:var(--t3)">${b.ownerContact||''}</span></div>
+          <div style="margin-top:6px">${stb(b.status)}</div>
+          <div class="pu-since ${cls}">${label}</div>
+        </div>`;
+      }).join('')}</div>`
+    : `<div class="empty" style="color:var(--lime);font-family:var(--mono);font-size:0.8125rem;">All bets reviewed recently.</div>`;
+
+  // ── Signal Check pending (>14 days since last signal check) ──
+  const scItems=activeBets.map(b=>{
+    const checks=S.signalChecks.filter(sc=>sc.bet===b.id).sort((a,z)=>new Date(z.date)-new Date(a.date));
+    const last=checks[0]?new Date(checks[0].date):null;
+    const lastStr=checks[0]?checks[0].date:null;
+    const daysSince=last?Math.round((now-last)/86400000):null;
+    return{b,lastStr,daysSince};
+  }).filter(({daysSince})=>daysSince===null||daysSince>14)
+    .sort((a,z)=>(z.daysSince||999)-(a.daysSince||999));
+
+  scEl.innerHTML=scItems.length
+    ? `<div class="pu-grid">${scItems.map(({b,lastStr,daysSince})=>{
+        const isNever=daysSince===null;
+        const cls=isNever||daysSince>21?'overdue':'warn';
+        const cardCls=isNever||daysSince>21?'':'warn';
+        const label=isNever?'Never checked':`Last check: ${lastStr} · ${daysSince}d ago`;
+        return`<div class="pu-card ${cardCls}" onclick="openModalForBet('signal','${b.id}')">
+          <div class="pu-name">${b.name}</div>
+          <div class="pu-meta">${areaTag(b.ownerArea)} <span style="color:var(--t3)">${b.ownerContact||''}</span></div>
+          <div style="margin-top:6px">${sig(b.signal)}</div>
+          <div class="pu-since ${cls}">${label}</div>
+        </div>`;
+      }).join('')}</div>`
+    : `<div class="empty" style="color:var(--lime);font-family:var(--mono);font-size:0.8125rem;">All signals checked recently.</div>`;
+}
+
+function renderSprints(){
+  document.getElementById('sl').innerHTML=S.sprints.map(s=>{
+    const bets=S.bets.filter(b=>b.sprint===s.id);
+    const now=new Date(),end=new Date(s.end),start=new Date(s.start);
+    const days=Math.max(0,Math.round((end-now)/86400000));
+    const pct=Math.max(0,Math.min(100,Math.round((1-days/Math.round((end-start)/86400000))*100)));
+    return`<div class="sprint-card ${s.status==='Active'?'ia':''}"><div class="sh"><div><div class="sn">${s.name}</div><div class="sd">${s.start} → ${s.end}</div></div>${spb(s.status)}</div><div class="sfl">Strategic Focus</div><div class="sf">${s.focus}</div>${s.signals?`<div class="sfl" style="margin-top:10px">Success Signals</div><div class="sf">${s.signals}</div>`:''}${s.status==='Active'?`<div class="pt-track" style="width:100%"><div class="pt-fill" style="width:${pct}%"></div></div><div class="sp-pct">${pct}% through sprint</div>`:''}<div class="s-stats"><span>${bets.length} bets</span><span>·</span><span>${bets.filter(b=>b.status!=='Kill').length} active</span><span>·</span><span>${bets.filter(b=>b.signal==='Strong').length} strong signal</span></div>${s.closure?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;"><div><div class="sfl">What worked</div><div class="sf" style="font-size:0.8125rem">${s.closure.worked||'—'}</div></div><div><div class="sfl">What didn't</div><div class="sf" style="font-size:0.8125rem">${s.closure.didnt||'—'}</div></div><div><div class="sfl">Surprises</div><div class="sf" style="font-size:0.8125rem">${s.closure.surprised||'—'}</div></div></div>`:''}</div>`;
+  }).join('');
+}
+
+function renderKanban(){
+  document.getElementById('kb').innerHTML=['Active','Scaled','Pivoted','Done','Killed'].map(col=>{
+    const cb=S.bets.filter(b=>b.status===col);
+    return`<div class="kc"><div class="kch">${col}<span class="kcc">${cb.length}</span></div>${cb.map(b=>`<div class="bc" onclick="openDet('${b.id}')" style="${b.isDraft?'border-left:2px solid #A090FF;':''}""><div class="bcn">${b.name}${b.isDraft?` <span style="font-size:0.6875rem;color:#A090FF;font-family:var(--mono);font-weight:600;">DRAFT</span>`:''}</div><div class="bcs">${GS(b.sprint)?.name||''}</div><div class="bcm">${sig(b.signal)} ${areaTag(b.ownerArea)}</div></div>`).join('')}</div>`;
+  }).join('');
+}
+
+const tableFilters={status:null,signal:null,owner:null};
+
+function buildOwnerPills(){
+  const grp=document.getElementById('fg-owner');
+  if(!grp||grp.querySelector('.fpill')) return; // already built
+  const areas=['MU-1','MU-2','MU-3','MU-4','HR','TAG','L&D','Marketing','Delivery'];
+  const allBtn=document.createElement('button');
+  allBtn.className='fpill active';
+  allBtn.textContent='All';
+  allBtn.onclick=function(){setTableFilter('owner',null,this);};
+  grp.appendChild(allBtn);
+  areas.forEach(a=>{
+    const btn=document.createElement('button');
+    btn.className='fpill';
+    btn.textContent=a;
+    btn.onclick=function(){setTableFilter('owner',a,this);};
+    grp.appendChild(btn);
+  });
+}
+
+function setTableFilter(key,value,btn){
+  tableFilters[key]=value;
+  // update active pill in that group
+  btn.closest('.filter-group').querySelectorAll('.fpill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function navigateToTableWithFilter(status){
+  // reset all filters, set status
+  tableFilters.status=status;
+  tableFilters.signal=null;
+  tableFilters.owner=null;
+  // navigate to table view
+  const btn=document.querySelector('[onclick*="bets-table"]');
+  showView('bets-table',btn);
+  // sync pills after view renders
+  setTimeout(()=>{
+    document.querySelectorAll('#fbt-filters .filter-group').forEach((grp,i)=>{
+      grp.querySelectorAll('.fpill').forEach(p=>p.classList.remove('active'));
+      if(i===0){
+        // status group — activate matching pill or All
+        const match=[...grp.querySelectorAll('.fpill')].find(p=>p.textContent.trim()===status);
+        (match||grp.querySelector('.fpill')).classList.add('active');
+      } else {
+        grp.querySelector('.fpill').classList.add('active');
+      }
+    });
+    renderTable();
+  },0);
+}
+
+function renderTable(){
+  let bets=S.bets;
+  if(tableFilters.status) bets=bets.filter(b=>b.status===tableFilters.status);
+  if(tableFilters.signal) bets=bets.filter(b=>b.signal===tableFilters.signal);
+  if(tableFilters.owner) bets=bets.filter(b=>b.ownerArea===tableFilters.owner);
+  document.querySelector('#fbt tbody').innerHTML=bets.length
+    ? bets.map(b=>`<tr class="cl" onclick="openDet('${b.id}')"><td style="font-weight:500">${b.name}</td><td style="color:var(--t3);font-size:0.875rem">${GS(b.sprint)?.name||'—'}</td><td>${areaTag(b.ownerArea)}</td><td style="color:var(--t2);font-size:0.875rem">${b.ownerContact||'—'}</td><td>${stb(b.status)}</td><td>${sig(b.signal)}</td><td><div style="font-size:0.75rem;color:var(--g4)">Rev: ${b.revenue}</div><div style="font-size:0.75rem;color:var(--g4)">Marg: ${b.margin}</div></td><td>${alitags(b.alignment||[])}</td></tr>`).join('')
+    : '<tr><td colspan="8" class="empty" style="padding:16px 14px">No bets match the current filters.</td></tr>';
+}
+
+function renderEvidence(){
+  document.querySelector('#et tbody').innerHTML=S.evidence.map(e=>{const b=GB(e.bet);return`<tr><td style="font-size:0.8125rem;color:var(--t3);white-space:nowrap;font-family:var(--mono)">${e.date}</td><td style="font-weight:500">${b?.name||'—'}</td><td style="font-size:0.875rem">${e.actual||'—'}</td><td style="font-size:0.875rem;color:var(--t2)">${e.insight}</td><td>${stb(e.newStatus||'Active')}</td></tr>`;}).join('');
+}
+
+function mf(area,b){return b.ownerArea===area||(b.alignment||[]).includes(area);}
+function renderFn(area,id){
+  const bets=S.bets.filter(b=>mf(area,b));
+  document.getElementById(id).innerHTML=bets.length?`<div class="fn-grid">${bets.map(b=>{
+    const isOwner=b.ownerArea===area;
+    return`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.ownerContact||'—'}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;align-items:center"><span class="tag" style="background:rgba(255,255,255,.06);color:var(--t3);font-size:9px">${isOwner?'OWNER':'ALIGNMENT'}</span> ${areaTag(b.ownerArea)} ${alitags(b.alignment||[])}</div></div>`;
+  }).join('')}</div>`:'<div class="empty">No bets owned or requiring alignment from this area.</div>';
+}
+
+function renderMU(mu,id){
+  const bets=S.bets.filter(b=>mf(mu,b));
+  document.getElementById(id).innerHTML=bets.length?`<div class="fn-grid">${bets.map(b=>{
+    const isOwner=b.ownerArea===mu;
+    return`<div class="fnc" onclick="openDet('${b.id}')"><div class="fnh"><div><div class="fnn">${b.name}</div><div class="fnm">${GS(b.sprint)?.name||'—'} · ${b.ownerContact||'—'}</div></div><div style="display:flex;gap:5px;align-items:center">${stb(b.status)} ${sig(b.signal)}</div></div><div class="fno">${b.outcome}</div><div style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;align-items:center"><span class="tag" style="background:rgba(255,255,255,.06);color:var(--t3);font-size:9px">${isOwner?'OWNER':'ALIGNMENT'}</span> ${areaTag(b.ownerArea)} ${alitags(b.alignment||[])}</div></div>`;
+  }).join('')}</div>`:'<div class="empty">No bets owned or requiring alignment from this MU.</div>';
+}
+
+function openDet(id){
+  const b=GB(id);if(!b)return;
+  const sp=GS(b.sprint),evs=S.evidence.filter(e=>e.bet===id),scs=S.signalChecks.filter(sc=>sc.bet===id);
+  const ecl={Active:'eco',Scaled:'esc',Pivoted:'epi',Done:'eco',Killed:'ekl'};
+  document.getElementById('dp').innerHTML=`
+    <div class="dp-head"><div style="flex:1"><div class="dp-title">${b.name}</div><div class="dp-meta">${stb(b.status)} ${sig(b.signal)}${b.lastNote?` <span style="font-size:0.8125rem;color:var(--t3);font-style:italic">· ${b.lastNote}</span>`:''}</div></div><button class="cb" onclick="closeDet()">×</button></div>
+    <div class="dp-body">
+      <div class="ds"><div class="dsl">Context</div><div class="d2c"><div class="df"><div class="dfl">Sprint</div><div class="dfv">${sp?.name||'—'}</div></div><div class="df"><div class="dfl">Point of Contact</div><div class="dfv">${b.ownerContact||'—'}</div></div></div><div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap"><div><div class="dfl" style="margin-bottom:4px">Owner Area</div>${areaTag(b.ownerArea)||'<span style="font-size:12px;color:var(--g4)">—</span>'}</div><div><div class="dfl" style="margin-bottom:4px">Support &amp; Alignment</div><div style="display:flex;gap:4px;flex-wrap:wrap">${alitags(b.alignment||[])||'<span style="font-size:12px;color:var(--g4)">—</span>'}</div></div></div></div>
+      <div class="ds"><div class="dsl">Strategic Definition</div><div class="df"><div class="dfl">Strategic Outcome</div><div class="dfv">${b.outcome||'—'}</div></div><div class="df"><div class="dfl">Hypothesis</div><div class="dfv">${b.hypothesis||'—'}</div></div><div class="df"><div class="dfl">Why Now</div><div class="dfv">${b.whyNow||'—'}</div></div></div>
+      <div class="ds"><div class="dsl">Evidence &amp; Signal</div><div class="df"><div class="dfl">Leading Indicators</div><div style="margin-top:5px">${(b.indicators||[]).map(i=>`<span class="ip">${i}</span>`).join('')||'—'}</div></div></div>
+      <div class="ds"><div class="dsl">Decision Criteria</div><div class="df"><div class="dfl">Kill Criteria</div><div class="dfv ck">${b.killCriteria||'—'}</div></div><div class="df"><div class="dfl">Scale Trigger</div><div class="dfv csc">${b.scaleTrigger||'—'}</div></div></div>
+      <div class="ds"><div class="dsl">Business Impact</div><div class="ir"><div class="ii"><div class="iil">Revenue</div>${ilv(b.revenue)}</div><div class="ii"><div class="iil">Margin</div>${ilv(b.margin)}</div><div class="ii"><div class="iil">Strategic</div>${ilv(b.importance)}</div></div></div>
+      ${evs.length?`<div class="ds"><div class="dsl">Evidence Log (${evs.length})</div>${evs.map(e=>`<div class="ev ${ecl[e.decision]||''}"><div class="evd">${e.date}</div><div class="evi">${e.actual||''}</div><div class="evi" style="margin-top:4px">${e.insight}</div>${e.action?`<div class="eva">→ ${e.action}</div>`:''}</div>`).join('')}</div>`:''}
+      ${scs.length?`<div class="ds"><div class="dsl">Signal Checks (${scs.length})</div>${scs.map(sc=>{const cls={Strong:'ss',Unclear:'su',Weak:'sw'};const changed=sc.prevSignal!==sc.signal;return`<div class="ev eco"><div class="evd">${sc.date} <span class="signal ${cls[sc.signal]||''}">● ${sc.signal}</span>${changed?` <span style="font-size:0.75rem;color:var(--g4)">← was ${sc.prevSignal}</span>`:''}</div>${sc.note?`<div class="evi">${sc.note}</div>`:''}</div>`;}).join('')}</div>`:''}
+    </div>`;
+  const bd=document.getElementById('dpb');bd.className='dp-backdrop';bd.style.display='flex';
+}
+function closeDet(evt){if(evt&&evt.target!==document.getElementById('dpb'))return;document.getElementById('dpb').style.display='none';}
+
+function openModal(type){
+  const bd=document.getElementById('modb'),body=document.getElementById('mod');
+  bd.className='mb';bd.style.display='flex';
+
+  if(type==='sprint'){
+    body.className='wz';
+    body.innerHTML=`
+    <div class="wz-side">
+      <div class="wz-tag">Sprint Definition</div>
+      <div class="wz-title">Define the Sprint</div>
+      <div class="wz-intro">Set the strategic direction for the next 90 days. A Sprint defines where we focus — not what we execute.</div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Strategic Focus</div>
+        <div class="wz-rule">3 clear priorities maximum. If everything is a focus, nothing is.</div>
+        <div class="wz-example">e.g. AI-enabled delivery · Margin protection · GTM repositioning</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Success Signals</div>
+        <div class="wz-rule">How will we recognize progress? Keep these directional, not metric-precise.</div>
+        <div class="wz-example">e.g. Increased AI adoption · Stronger pipeline · Efficiency signals in key accounts</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Bet Portfolio</div>
+        <div class="wz-rule">3–5 bets maximum. Add them after creating the Sprint. Balance across capability, revenue, margin, and GTM.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Rules</div>
+        <div class="wz-rule">The Sprint is fixed in time — 90 days.</div>
+        <div class="wz-rule">The portfolio is flexible within the Sprint.</div>
+        <div class="wz-rule">Focus is intentionally limited by design.</div>
+      </div>
+    </div>
+    <div class="wz-main">
+      <div class="wz-form-title">New Enterprise Sprint</div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Sprint Name</div><div class="wz-hint">Use fiscal quarter format</div></div>
+        <input type="text" id="ms-n" placeholder="e.g. Q2 FY27 Sprint">
+      </div>
+      <div class="wz-2col">
+        <div class="wz-field"><div class="wz-label">Start Date</div><input type="date" id="ms-s"></div>
+        <div class="wz-field"><div class="wz-label">End Date</div><input type="date" id="ms-e"></div>
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Strategic Focus</div><div class="wz-hint">Max 3 priorities — be ruthless</div></div>
+        <textarea id="ms-f" style="min-height:80px" placeholder="What matters most this cycle? List up to 3 priorities."></textarea>
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Success Signals</div><div class="wz-hint">How will we recognize progress?</div></div>
+        <textarea id="ms-sig" style="min-height:60px" placeholder="e.g. Increased AI adoption in delivery · Stronger enterprise pipeline"></textarea>
+      </div>
+      <div class="wz-field">
+        <div class="wz-label">Status</div>
+        <select id="ms-st"><option>Planned</option><option>Active</option><option>Closed</option></select>
+      </div>
+      <div style="flex:1"></div>
+      <div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveSprint()">Create Sprint</button></div>
+    </div>`;
+
+  } else if(type==='bet'){
+    const so=S.sprints.filter(s=>s.status!=='Closed').map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+    const activeBetCount=S.bets.filter(b=>b.sprint===GA()?.id&&b.status!=='Kill').length;
+    const overCap=activeBetCount>=5;
+    body.className='wz';
+    body.innerHTML=`
+    <div class="wz-side">
+      <div class="wz-tag">Bet Creation</div>
+      <div class="wz-title">Create a Strategic Bet</div>
+      <div class="wz-intro">A Bet is a testable hypothesis — not a project. If it cannot produce evidence within 45 days, it is not a bet.</div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Hypothesis Format</div>
+        <div class="wz-rule">If we do X → we believe Y will happen → measured by Z.</div>
+        <div class="wz-example">e.g. If we embed AI copilots in 3 squads → cycle time drops 20% → measured by story lead time</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Leading Indicators</div>
+        <div class="wz-rule">Max 3. Avoid revenue — focus on early signals that appear within weeks.</div>
+        <div class="wz-example">e.g. AI usage rate · Cycle time reduction · Developer satisfaction</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Kill Criteria</div>
+        <div class="wz-rule">Define the exact threshold that triggers stopping. Be explicit before you start.</div>
+        <div class="wz-example">e.g. AI usage &lt; 30% after 6 weeks</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Scale Trigger</div>
+        <div class="wz-rule">What specific signal tells you to double down?</div>
+        <div class="wz-example">e.g. Cycle time reduction ≥ 20% across all 3 squads</div>
+      </div>
+
+      ${overCap?`<div class="wz-warn"><div class="wz-warn-label">Portfolio at capacity</div><div class="wz-warn-item">You have ${activeBetCount} active bets. The CAP rule allows max 5. To add this bet, you must Kill or pause an existing one first.</div></div>`:''}
+
+      <div class="wz-warn" style="background:rgba(170,220,0,.06);border-left-color:var(--lime);margin-top:12px;">
+        <div class="wz-warn-label" style="color:var(--lime)">This is NOT a Bet if...</div>
+        <div class="wz-warn-item">It takes multiple quarters to validate</div>
+        <div class="wz-warn-item">It requires full rollout before testing</div>
+        <div class="wz-warn-item">It has no clear hypothesis</div>
+        <div class="wz-warn-item">It cannot be killed</div>
+      </div>
+    </div>
+    <div class="wz-main">
+      <div class="wz-form-title">New Strategic Bet</div>
+      <div class="wz-2col">
+        <div class="wz-field"><div class="wz-label">Sprint</div><select id="mb-sp">${so}</select></div>
+        <div class="wz-field"><div class="wz-label">Initial Status</div><select id="mb-st"><option>Explore</option><option>Validate</option></select></div>
+      </div>
+      <div class="wz-2col">
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Owner Area</div><div class="wz-hint">Who leads &amp; is accountable?</div></div>
+          <select id="mb-oa"><option value="">— Select —</option><optgroup label="Market Units"><option>MU-1</option><option>MU-2</option><option>MU-3</option><option>MU-4</option></optgroup><optgroup label="Functions"><option>HR</option><option>TAG</option><option>L&amp;D</option><option>Marketing</option><option>Delivery</option></optgroup></select>
+        </div>
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Point of Contact</div><div class="wz-hint">Person in owner area</div></div>
+          <input type="text" id="mb-oc" placeholder="Name or role">
+        </div>
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Bet Name</div><div class="wz-hint">Short, specific, action-oriented</div></div>
+        <input type="text" id="mb-n" placeholder="e.g. AI-Assisted Delivery Pods">
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Strategic Outcome</div><div class="wz-hint">Measurable change in 90 days</div></div>
+        <input type="text" id="mb-ou" placeholder="e.g. Increase delivery efficiency by 15% in 90 days">
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Why Now</div><div class="wz-hint">Why is this the right moment?</div></div>
+        <input type="text" id="mb-wn" placeholder="e.g. New tooling now mature enough · Client pressure on speed">
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Hypothesis</div><div class="wz-hint">If X → Y → measured by Z</div></div>
+        <textarea id="mb-hy" style="min-height:60px" placeholder="If we do X, we believe Y will happen, measured by Z"></textarea>
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Leading Indicators</div><div class="wz-hint">Comma-separated · max 3 · avoid revenue</div></div>
+        <textarea id="mb-ind" style="min-height:60px" placeholder="AI usage rate >60%, Cycle time reduction, Dev satisfaction ↑"></textarea>
+      </div>
+      <div class="wz-2col">
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Kill Criteria</div><div class="wz-hint">When do we stop?</div></div>
+          <input type="text" id="mb-kc" placeholder="e.g. Usage &lt; 30% after 6 weeks">
+        </div>
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Scale Trigger</div><div class="wz-hint">When do we double down?</div></div>
+          <input type="text" id="mb-sc" placeholder="e.g. Cycle time ↓ 20% across all squads">
+        </div>
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Support &amp; Alignment Required</div><div class="wz-hint">Who else needs to be involved?</div></div>
+        <div class="wz-check-row">${['MU-1','MU-2','MU-3','MU-4','HR','TAG','L&D','Marketing','Delivery'].map(f=>`<label><input type="checkbox" value="${f}" class="mba"> ${f}</label>`).join('')}</div>
+      </div>
+      <div class="wz-3col">
+        <div class="wz-field"><div class="wz-label">Revenue Impact</div><select id="mb-rv"><option value="Medium" selected>Medium</option><option value="High">High</option><option value="Low">Low</option></select></div>
+        <div class="wz-field"><div class="wz-label">Margin Impact</div><select id="mb-mg"><option value="Medium" selected>Medium</option><option value="High">High</option><option value="Low">Low</option></select></div>
+        <div class="wz-field"><div class="wz-label">Strategic Importance</div><select id="mb-si"><option value="Medium" selected>Medium</option><option value="High">High</option><option value="Low">Low</option></select></div>
+      </div>
+      <div style="flex:1"></div>
+      <div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveBet()">Create Bet</button></div>
+    </div>`;
+
+  } else if(type==='evidence'){
+    const act=GA();
+    const activeBets=S.bets.filter(b=>b.sprint===act?.id&&b.status!=='Kill');
+    const bo=activeBets.length
+      ? activeBets.map(b=>`<option value="${b.id}">${b.name}</option>`).join('')
+      : S.bets.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
+    const today=new Date().toISOString().split('T')[0];
+    body.className='wz';
+    body.innerHTML=`
+    <div class="wz-side">
+      <div class="wz-tag">Monthly Review</div>
+      <div class="wz-title">Log Evidence</div>
+      <div class="wz-intro">This is the core decision moment. Evaluate what happened, extract the learning, and decide what to do next.</div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Expected vs Actual</div>
+        <div class="wz-rule">Be honest. Compare what you predicted against what actually happened — no spin.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">The Insight</div>
+        <div class="wz-rule">What does the gap between expected and actual tell you? This is the most important field.</div>
+        <div class="wz-example">e.g. Squad C lagging because tooling friction wasn't accounted for in the rollout plan</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">The Decision</div>
+        <div class="wz-rule"><strong style="color:#38BDF8">Active</strong> — Keep testing, no change.</div>
+        <div class="wz-rule"><strong style="color:#00C864">Scaled</strong> — Hypothesis confirmed. Generates a draft bet for next sprint.</div>
+        <div class="wz-rule"><strong style="color:#A090FF">Pivoted</strong> — New direction. Generates a draft bet with updated hypothesis.</div>
+        <div class="wz-rule"><strong style="color:#34D399">Done</strong> — Reached its conclusion. Close well.</div>
+        <div class="wz-rule"><strong style="color:#E63232">Killed</strong> — No signal. Stop now.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">After deciding Scale or Kill</div>
+        <div class="wz-rule">The selection IS the new status. It updates automatically when saved.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Rules</div>
+        <div class="wz-rule">Every active bet requires a decision each month.</div>
+        <div class="wz-rule">No decision is also a decision — and it's the worst one.</div>
+        <div class="wz-rule">Optimize for focus, not activity.</div>
+      </div>
+    </div>
+    <div class="wz-main">
+      <div class="wz-form-title">Monthly Evidence Entry</div>
+      <div class="wz-2col">
+        <div class="wz-field"><div class="wz-label">Bet</div><select id="me-b" onchange="onEvidenceBetChange()">${bo}</select></div>
+        <div class="wz-field"><div class="wz-label">Date</div><input type="date" id="me-d" value="${today}"></div>
+      </div>
+
+      <div id="me-bet-context" style="display:none;margin-bottom:14px;background:var(--g2);border-radius:var(--r);border-left:2px solid var(--border-mid);padding:10px 12px;display:none;">
+        <div style="display:grid;grid-template-columns:1fr;gap:8px;">
+          <div><div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);margin-bottom:2px;">Hypothesis</div><div id="me-ctx-hyp" style="font-size:12px;color:var(--t2);line-height:1.5;"></div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div><div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#E63232;margin-bottom:2px;">Kill if</div><div id="me-ctx-kill" style="font-size:11px;color:var(--t2);line-height:1.5;"></div></div>
+            <div><div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--lime);margin-bottom:2px;">Scale when</div><div id="me-ctx-scale" style="font-size:11px;color:var(--t2);line-height:1.5;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Actual</div><div class="wz-hint">What actually happened?</div></div>
+        <input type="text" id="me-ac" placeholder="e.g. Usage at 52% in squads A and B, Squad C at 18%">
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Insight</div><div class="wz-hint">What does the gap tell you?</div></div>
+        <textarea id="me-in" style="min-height:70px" placeholder="What did we learn from the difference between expected and actual?"></textarea>
+      </div>
+      <div class="wz-2col">
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Decision</div><div class="wz-hint">Mandatory — pick one</div></div>
+          <select id="me-de" onchange="onEvidenceDecisionChange()"><option value="Active" selected>Keep Active</option><option value="Scaled">Scale</option><option value="Pivoted">Pivot</option><option value="Done">Mark as Done</option><option value="Killed">Kill</option></select>
+        </div>
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Next Action</div><div class="wz-hint">One concrete step</div></div>
+          <input type="text" id="me-at" placeholder="e.g. L&D to run enablement session for Squad C">
+        </div>
+      </div>
+      <div id="me-pivot-field" style="display:none;">
+        <div class="wz-field">
+          <div class="wz-field-head"><div class="wz-label">Updated Hypothesis</div><div class="wz-hint">What's the new direction?</div></div>
+          <textarea id="me-nh" style="min-height:56px" placeholder="If we now do X, we believe Y will happen, measured by Z"></textarea>
+        </div>
+      </div>
+      <div id="me-decision-note" style="display:none;margin-top:4px;"></div>
+      <div style="flex:1"></div>
+      <div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveEvidence()">Log Evidence</button></div>
+    </div>`;
+    setTimeout(onEvidenceBetChange, 0);
+  } else if(type==='signal'){
+    const act=GA();
+    const activeBets=S.bets.filter(b=>b.sprint===act?.id&&b.status!=='Kill');
+    const bo=activeBets.length
+      ? activeBets.map(b=>`<option value="${b.id}">${b.name}</option>`).join('')
+      : S.bets.filter(b=>b.status!=='Kill').map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
+    const today=new Date().toISOString().split('T')[0];
+    body.className='wz';
+    body.innerHTML=`
+    <div class="wz-side">
+      <div class="wz-tag">Signal Check</div>
+      <div class="wz-title">Run a Signal Check</div>
+      <div class="wz-intro">A lightweight checkpoint to detect early signals. This is not a decision meeting — it's awareness.</div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">What to look for</div>
+        <div class="wz-rule">Did anything change since the last check?</div>
+        <div class="wz-rule">Are there new signals — positive or negative?</div>
+        <div class="wz-rule">Does anything need attention before the next monthly review?</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Signal meanings</div>
+        <div class="wz-rule"><strong style="color:#00C864">Strong</strong> — Evidence supports the hypothesis. Trending toward scale.</div>
+        <div class="wz-rule"><strong style="color:#EAA012">Unclear</strong> — Mixed or insufficient signals. Keep watching.</div>
+        <div class="wz-rule"><strong style="color:#E63232">Weak</strong> — Evidence contradicts or is absent. Flag for review.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Rules</div>
+        <div class="wz-rule">No major decisions here — those belong in the Monthly Review.</div>
+        <div class="wz-rule">If something looks like it needs a Kill or Scale decision, flag it and bring it to the next review.</div>
+        <div class="wz-rule">Cadence: every 2 weeks.</div>
+      </div>
+    </div>
+    <div class="wz-main">
+      <div class="wz-form-title">Signal Check</div>
+      <div class="wz-2col">
+        <div class="wz-field"><div class="wz-label">Bet</div><select id="sc-b" onchange="onSignalBetChange()">${bo}</select></div>
+        <div class="wz-field"><div class="wz-label">Date</div><input type="date" id="sc-d" value="${today}"></div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div class="wz-label" style="margin:0;">Current Signal</div>
+        <div id="sc-cur"></div>
+      </div>
+
+      <div id="sc-ctx" style="display:none;margin-bottom:14px;background:var(--g2);border-radius:var(--r);border-left:2px solid var(--border-mid);padding:10px 12px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div><div style="font-family:var(--mono);font-size:0.625rem;text-transform:uppercase;letter-spacing:.1em;color:#E63232;margin-bottom:2px;">Kill if</div><div id="sc-kill-ref" style="font-size:0.8125rem;color:var(--t2);line-height:1.5;"></div></div>
+          <div><div style="font-family:var(--mono);font-size:0.625rem;text-transform:uppercase;letter-spacing:.1em;color:#00C864;margin-bottom:2px;">Scale when</div><div id="sc-scale-ref" style="font-size:0.8125rem;color:var(--t2);line-height:1.5;"></div></div>
+        </div>
+      </div>
+
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Updated Signal</div><div class="wz-hint">Only change if something shifted</div></div>
+        <select id="sc-sig">
+          <option value="Strong">● Strong — evidence supports the hypothesis</option>
+          <option value="Unclear" selected>● Unclear — mixed or insufficient signals</option>
+          <option value="Weak">● Weak — evidence contradicts or absent</option>
+        </select>
+      </div>
+      <div class="wz-field">
+        <div class="wz-field-head"><div class="wz-label">Note</div><div class="wz-hint">Optional — what changed or caught your attention?</div></div>
+        <textarea id="sc-note" style="min-height:60px" placeholder="e.g. Adoption in Squad C picked up this week after the enablement session"></textarea>
+      </div>
+      <div style="flex:1"></div>
+      <div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveSignalCheck()">Save Signal Check</button></div>
+    </div>`;
+    setTimeout(onSignalBetChange, 0);
+  } else if(type==='closure'){
+    const act=GA();
+    if(!act){
+      body.className='modal';
+      body.innerHTML=`<div class="mt">Close Sprint</div><div class="empty" style="padding:20px 0;">No active sprint to close.</div><div class="br"><button class="btn" onclick="closeModal()">Close</button></div>`;
+      return;
+    }
+    const sprintBets=S.bets.filter(b=>b.sprint===act.id&&b.status!=='Kill');
+    body.className='wz';
+    body.innerHTML=`
+    <div class="wz-side">
+      <div class="wz-tag">Sprint Closure</div>
+      <div class="wz-title">Close the Sprint</div>
+      <div class="wz-intro">Closure is not reporting. It is where the organization reconfigures based on what was learned.</div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Bet Outcomes</div>
+        <div class="wz-rule"><strong style="color:#38BDF8">Keep Active</strong> — Moves to next sprint as-is.</div>
+        <div class="wz-rule"><strong style="color:#00C864">Scaled</strong> — Generates a draft bet for expansion.</div>
+        <div class="wz-rule"><strong style="color:#A090FF">Pivoted</strong> — Generates a draft bet with new hypothesis.</div>
+        <div class="wz-rule"><strong style="color:#34D399">Done</strong> — Reached its conclusion. No continuation.</div>
+        <div class="wz-rule"><strong style="color:#E63232">Killed</strong> — No signal. Stop completely.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Learnings</div>
+        <div class="wz-rule">What worked? What didn't? What surprised us?</div>
+        <div class="wz-rule">Learning must translate into action — not just reflection.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Capability Decisions</div>
+        <div class="wz-rule">Translate sprint learnings into concrete actions for each function.</div>
+      </div>
+
+      <div class="wz-rule-block">
+        <div class="wz-rule-label">Rules</div>
+        <div class="wz-rule">Nothing remains undefined.</div>
+        <div class="wz-rule">Every bet must have a final outcome.</div>
+        <div class="wz-rule">Closure must change how we operate next sprint.</div>
+      </div>
+    </div>
+    <div class="wz-main">
+      <div class="wz-form-title">Closing: ${act.name}</div>
+
+      <div class="sl" style="margin-top:0;margin-bottom:10px;">Bet Outcomes</div>
+      ${sprintBets.map(b=>`
+        <div style="background:var(--g2);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;border-left:2px solid var(--border-mid);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
+            <div>
+              <div style="font-family:var(--mono);font-size:0.9375rem;font-weight:600;color:var(--cream);">${b.name}</div>
+              <div style="font-size:0.8125rem;color:var(--t3);margin-top:2px;">${b.ownerArea} · ${b.ownerContact}</div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">${stb(b.status)} ${sig(b.signal)}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div class="wz-field" style="margin-bottom:0;">
+              <div class="wz-label">Outcome</div>
+              <select id="cl-outcome-${b.id}" onchange="onClosureOutcomeChange('${b.id}')">
+                <option value="Active">Keep Active</option>
+                <option value="Scaled">Scale</option>
+                <option value="Pivoted">Pivot</option>
+                <option value="Done">Mark as Done</option>
+                <option value="Killed">Kill</option>
+              </select>
+            </div>
+            <div class="wz-field" style="margin-bottom:0;">
+              <div class="wz-label">Key Learning</div>
+              <input type="text" id="cl-learning-${b.id}" placeholder="What did this bet teach us?">
+            </div>
+          </div>
+          <div id="cl-pivot-${b.id}" style="display:none;margin-top:8px;">
+            <div class="wz-field" style="margin-bottom:0;">
+              <div class="wz-label">Updated Hypothesis</div>
+              <input type="text" id="cl-newhyp-${b.id}" placeholder="New direction for the next sprint...">
+            </div>
+          </div>
+        </div>`).join('')}
+
+      <div class="sl" style="margin-top:20px;margin-bottom:10px;">Sprint Learnings</div>
+      <div class="wz-3col">
+        <div class="wz-field"><div class="wz-label">What worked?</div><textarea id="cl-worked" style="min-height:64px" placeholder="What produced results?"></textarea></div>
+        <div class="wz-field"><div class="wz-label">What didn't?</div><textarea id="cl-didnt" style="min-height:64px" placeholder="What failed or stalled?"></textarea></div>
+        <div class="wz-field"><div class="wz-label">What surprised us?</div><textarea id="cl-surprised" style="min-height:64px" placeholder="Unexpected signals or outcomes?"></textarea></div>
+      </div>
+
+      <div class="sl" style="margin-top:20px;margin-bottom:10px;">Capability Decisions</div>
+      <div class="wz-2col">
+        <div class="wz-field"><div class="wz-label">HR</div><input type="text" id="cl-hr" placeholder="Capability needs or org changes"></div>
+        <div class="wz-field"><div class="wz-label">TAG — Recruiting</div><input type="text" id="cl-tag" placeholder="Hiring priorities"></div>
+        <div class="wz-field"><div class="wz-label">L&amp;D</div><input type="text" id="cl-ld" placeholder="Training focus"></div>
+        <div class="wz-field"><div class="wz-label">Marketing</div><input type="text" id="cl-mkt" placeholder="Positioning changes"></div>
+      </div>
+
+      <div style="flex:1"></div>
+      <div class="br"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-p" onclick="saveClosure('${act.id}')">Close Sprint</button></div>
+    </div>`;
+  }
+}
+function openModalForBet(type, betId){
+  openModal(type);
+  setTimeout(()=>{
+    const sel=document.getElementById(type==='signal'?'sc-b':'me-b');
+    if(sel){
+      sel.value=betId;
+      if(type==='signal') onSignalBetChange();
+      else onEvidenceBetChange();
+    }
+  }, 50);
+}
+
+
+function createDraftBet(sourceBet, outcome, newHyp){
+  const nextSprint=S.sprints.find(s=>s.status==='Planned');
+  const draftHyp=outcome==='Pivoted'&&newHyp ? newHyp : sourceBet.hypothesis;
+  const draftName=outcome==='Scaled'
+    ? sourceBet.name+' — Scale'
+    : sourceBet.name+' — Pivot';
+  S.bets.push({
+    id:'b'+Date.now(),
+    name:draftName,
+    sprint:nextSprint?.id||sourceBet.sprint,
+    ownerArea:sourceBet.ownerArea,
+    ownerContact:sourceBet.ownerContact,
+    status:'Active',
+    signal:'Unclear',
+    alignment:sourceBet.alignment||[],
+    outcome:sourceBet.outcome,
+    hypothesis:draftHyp,
+    whyNow:'',
+    indicators:sourceBet.indicators||[],
+    killCriteria:sourceBet.killCriteria||'',
+    scaleTrigger:sourceBet.scaleTrigger||'',
+    impactAreas:[],
+    revenue:sourceBet.revenue||'Medium',
+    margin:sourceBet.margin||'Medium',
+    importance:sourceBet.importance||'Medium',
+    lastReviewed:null,
+    lastNote:'Draft — generated from '+outcome+' of '+sourceBet.name,
+    isDraft:true,
+    sourceBetId:sourceBet.id
+  });
+}
+function closeModal(){document.getElementById('modb').style.display='none';}
+
+
+function onClosureOutcomeChange(betId){
+  const val=document.getElementById(`cl-outcome-${betId}`)?.value;
+  const pivotDiv=document.getElementById(`cl-pivot-${betId}`);
+  if(pivotDiv) pivotDiv.style.display=val==='Pivoted'?'block':'none';
+}
+function saveClosure(sprintId){
+  const sprint=GS(sprintId); if(!sprint) return;
+  const sprintBets=S.bets.filter(b=>b.sprint===sprintId&&b.status!=='Kill');
+  const closeDate=new Date().toISOString().split('T')[0];
+  sprintBets.forEach(b=>{
+    const outcome=V(`cl-outcome-${b.id}`);
+    const learning=V(`cl-learning-${b.id}`);
+    const newHyp=V(`cl-newhyp-${b.id}`);
+    b.status=outcome==='Active'?'Active':outcome;
+    b.lastReviewed=closeDate;
+    if(learning){b.lastNote=learning;b.closureLearning=learning;}
+    if(outcome==='Scaled'||outcome==='Pivoted') createDraftBet(b,outcome,newHyp);
+  });
+  sprint.status='Closed';
+  sprint.closure={
+    worked:V('cl-worked'),didnt:V('cl-didnt'),surprised:V('cl-surprised'),
+    hr:V('cl-hr'),tag:V('cl-tag'),ld:V('cl-ld'),mkt:V('cl-mkt'),
+    date:new Date().toISOString().split('T')[0]
+  };
+  closeModal();renderAll();
+}
+
+function saveSignalCheck(){
+  const betId=V('sc-b');
+  const newSignal=V('sc-sig');
+  const note=V('sc-note');
+  const bet=GB(betId);
+  if(bet){
+    const prev=bet.signal;
+    bet.signal=newSignal;
+    S.signalChecks.unshift({id:'sc'+Date.now(),bet:betId,date:V('sc-d'),prevSignal:prev,signal:newSignal,note});
+  }
+  closeModal();renderAll();
+}
+
+function onSignalBetChange(){
+  const bet=GB(V('sc-b'));
+  const cur=document.getElementById('sc-cur');
+  const ctx=document.getElementById('sc-ctx');
+  if(!bet){cur.innerHTML='';ctx.style.display='none';return;}
+  const cls={Strong:'ss',Unclear:'su',Weak:'sw'};
+  cur.innerHTML=`<span class="signal ${cls[bet.signal]||''}">● ${bet.signal}</span>`;
+  if(bet.killCriteria||bet.scaleTrigger){
+    ctx.style.display='block';
+    document.getElementById('sc-kill-ref').textContent=bet.killCriteria||'—';
+    document.getElementById('sc-scale-ref').textContent=bet.scaleTrigger||'—';
+  } else ctx.style.display='none';
+  // pre-select current signal
+  document.getElementById('sc-sig').value=bet.signal;
+}
+function saveSprint(){S.sprints.unshift({id:'s'+Date.now(),name:V('ms-n')||'New Sprint',start:V('ms-s'),end:V('ms-e'),focus:V('ms-f'),signals:V('ms-sig'),status:V('ms-st')});closeModal();renderAll();}
+function saveBet(){
+  const a=[...document.querySelectorAll('.mba:checked')].map(el=>el.value);
+  const indicators=V('mb-ind').split(',').map(s=>s.trim()).filter(Boolean).slice(0,3);
+  S.bets.push({id:'b'+Date.now(),name:V('mb-n')||'New Bet',sprint:V('mb-sp'),ownerArea:V('mb-oa')||'—',ownerContact:V('mb-oc')||'—',status:V('mb-st'),signal:'Unclear',alignment:a,outcome:V('mb-ou'),hypothesis:V('mb-hy'),whyNow:V('mb-wn'),indicators,killCriteria:V('mb-kc'),scaleTrigger:V('mb-sc'),impactAreas:[],revenue:V('mb-rv')||'Medium',margin:V('mb-mg')||'Medium',importance:V('mb-si')||'Medium'});
+  closeModal();renderAll();
+}
+
+function saveEvidence(){
+  const betId=V('me-b');
+  const newStatus=V('me-de');
+  const newHyp=V('me-nh');
+  const date=V('me-d');
+  const insight=V('me-in');
+  S.evidence.unshift({id:'e'+Date.now(),bet:betId,date,actual:V('me-ac'),insight,newStatus,action:V('me-at')});
+  const bet=GB(betId);
+  if(bet){
+    bet.status=newStatus;
+    bet.lastReviewed=date;
+    bet.lastNote=insight.slice(0,80);
+    if(newStatus==='Pivoted'&&newHyp) bet.hypothesis=newHyp;
+    if(newStatus==='Scaled'||newStatus==='Pivoted') createDraftBet(bet,newStatus,newHyp);
+  }
+  closeModal();renderAll();
+}
+
+function onEvidenceBetChange(){
+  const betId=V('me-b');
+  const bet=GB(betId);
+  const ctx=document.getElementById('me-bet-context');
+  if(bet){
+    document.getElementById('me-ctx-hyp').textContent=bet.hypothesis||'—';
+    document.getElementById('me-ctx-kill').textContent=bet.killCriteria||'—';
+    document.getElementById('me-ctx-scale').textContent=bet.scaleTrigger||'—';
+    ctx.style.display='block';
+  } else {
+    ctx.style.display='none';
+  }
+}
+
+function onEvidenceDecisionChange(){
+  const d=V('me-de');
+  const pivotField=document.getElementById('me-pivot-field');
+  const note=document.getElementById('me-decision-note');
+  pivotField.style.display=d==='Pivoted'?'block':'none';
+  const colors={Active:'#38BDF8',Scaled:'#00C864',Pivoted:'#A090FF',Done:'#34D399',Killed:'#E63232'};
+  const col=colors[d]||'var(--t2)';
+  const drafts={Scaled:'Will generate a draft bet for the next sprint.',Pivoted:'Will generate a draft bet with updated hypothesis for the next sprint.'};
+  const extra=drafts[d]?` ${drafts[d]}`:'';
+  note.style.display='block';
+  note.innerHTML=`<div style="font-size:0.75rem;padding:6px 10px;border-radius:var(--r);background:${col}18;border-left:2px solid ${col};color:${col};font-family:var(--mono);">Status → <strong>${d}</strong>.${extra}</div>`;
+}
+
+function showView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+id)?.classList.add('active');
+  btn?.classList.add('active');
+}
+
+function generatePattern(){
+  const W=window.innerWidth||1400, H=window.innerHeight*3||3000;
+  const colGap=14;
+  const c=document.createElement('canvas');
+  c.width=W; c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(218,198,155,0.5)'; ctx.lineWidth=0.7;
+  const cols=Math.ceil(W/colGap);
+  // simple deterministic pseudo-random (no Math.random so pattern is stable on re-render)
+  let seed=42;
+  function rnd(){seed=(seed*1664525+1013904223)&0xffffffff;return(seed>>>0)/4294967296;}
+  for(let i=0;i<cols;i++){
+    const x=i*colGap+colGap/2;
+    let y=rnd()*160; // random start offset per column
+    while(y<H){
+      const len=rnd()*120+40; // line length 40–160px
+      const y2=y+len;
+      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,Math.min(y2,H)); ctx.stroke();
+      y=y2+rnd()*160+80; // gap 80–240px before next segment
+    }
+  }
+  return c.toDataURL();
+}
+
+let _patternUrl=null;
+function applyPattern(on){
+  const main=document.querySelector('.main');
+  if(!main) return;
+  if(on){
+    if(!_patternUrl) _patternUrl=generatePattern();
+    main.style.backgroundImage=`url(${_patternUrl})`;
+    main.style.backgroundSize=`${window.innerWidth||1400}px auto`;
+    main.style.backgroundRepeat='no-repeat';
+    main.style.backgroundPosition='top left';
+  } else {
+    main.style.backgroundImage='';
+    main.style.backgroundSize='';
+    main.style.backgroundRepeat='';
+  }
+}
+
+function toggleTheme(){
+  const isLight=document.body.classList.toggle('light');
+  document.getElementById('theme-lbl').textContent=isLight?'Light':'Dark';
+  applyPattern(isLight);
+}
+
+let currentFs=15;
+function setFontSize(delta){
+  currentFs=Math.max(11,Math.min(20,currentFs+delta));
+  document.documentElement.style.setProperty('--fs-base',currentFs+'px');
+  document.getElementById('fs-lbl').textContent=currentFs+'px';
+}
+
+function renderAll(){
+  buildOwnerPills();
+  renderDash();renderSprints();renderKanban();renderTable();renderEvidence();
+  renderFn('HR','fhr');renderFn('TAG','ftag');renderFn('L&D','fld');renderFn('Marketing','fmkt');renderFn('Delivery','fdel');
+  renderMU('MU-1','fmu1');renderMU('MU-2','fmu2');renderMU('MU-3','fmu3');renderMU('MU-4','fmu4');
+}
+// ── SUPABASE ──────────────────────────────────────────
+const SB_URL='https://cjegflipjmlxwnelvjik.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqZWdmbGlwam1seHduZWx2amlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Nzk5NTEsImV4cCI6MjA5MTI1NTk1MX0.7sLuvqHbpGzUQV7zjkZ96JCUjECWEDNWXGlW2H3yR8k';
+const db=supabase.createClient(SB_URL,SB_KEY);
+
+// ── DB helpers ────────────────────────────────────────
+function betToRow(b){return{id:b.id,sprint_id:b.sprint,name:b.name,owner_area:b.ownerArea,owner_contact:b.ownerContact,status:b.status,signal:b.signal,outcome:b.outcome,hypothesis:b.hypothesis,why_now:b.whyNow,indicators:b.indicators||[],kill_criteria:b.killCriteria,scale_trigger:b.scaleTrigger,alignment:b.alignment||[],revenue:b.revenue,margin:b.margin,importance:b.importance,last_reviewed:b.lastReviewed||null,last_note:b.lastNote||null,is_draft:b.isDraft||false,source_bet_id:b.sourceBetId||null,closure_learning:b.closureLearning||null};}
+function rowToBet(r){return{id:r.id,sprint:r.sprint_id,name:r.name,ownerArea:r.owner_area,ownerContact:r.owner_contact,status:r.status,signal:r.signal,outcome:r.outcome,hypothesis:r.hypothesis,whyNow:r.why_now,indicators:r.indicators||[],killCriteria:r.kill_criteria,scaleTrigger:r.scale_trigger,alignment:r.alignment||[],revenue:r.revenue,margin:r.margin,importance:r.importance,lastReviewed:r.last_reviewed,lastNote:r.last_note,isDraft:r.is_draft,sourceBetId:r.source_bet_id,closureLearning:r.closure_learning,impactAreas:[]};}
+function sprintToRow(s){return{id:s.id,name:s.name,start_date:s.start,end_date:s.end,focus:s.focus,signals:s.signals||null,status:s.status,closure:s.closure||null};}
+function rowToSprint(r){return{id:r.id,name:r.name,start:r.start_date,end:r.end_date,focus:r.focus,signals:r.signals,status:r.status,closure:r.closure};}
+function evToRow(e){return{id:e.id,bet_id:e.bet,date:e.date,actual:e.actual,insight:e.insight,new_status:e.newStatus||null,action:e.action||null};}
+function rowToEv(r){return{id:r.id,bet:r.bet_id,date:r.date,actual:r.actual,insight:r.insight,newStatus:r.new_status,action:r.action};}
+function scToRow(sc){return{id:sc.id,bet_id:sc.bet,date:sc.date,prev_signal:sc.prevSignal,signal:sc.signal,note:sc.note||null};}
+function rowToSc(r){return{id:r.id,bet:r.bet_id,date:r.date,prevSignal:r.prev_signal,signal:r.signal,note:r.note};}
+
+// ── Load all data from Supabase ───────────────────────
+async function loadFromDB(){
+  showLoading(true);
+  try{
+    const [sp,bt,ev,sc]=await Promise.all([
+      db.from('sprints').select('*').order('created_at'),
+      db.from('bets').select('*').order('created_at'),
+      db.from('evidence').select('*').order('created_at',{ascending:false}),
+      db.from('signal_checks').select('*').order('created_at',{ascending:false})
+    ]);
+    if(sp.data?.length||bt.data?.length){
+      S.sprints=(sp.data||[]).map(rowToSprint);
+      S.bets=(bt.data||[]).map(rowToBet);
+      S.evidence=(ev.data||[]).map(rowToEv);
+      S.signalChecks=(sc.data||[]).map(rowToSc);
+    } else {
+      // First load — seed DB with sample data
+      await seedDB();
+    }
+  }catch(e){console.error('DB load error',e);}
+  showLoading(false);
+  renderAll();
+}
+
+async function seedDB(){
+  await db.from('sprints').upsert(S.sprints.map(sprintToRow));
+  await db.from('bets').upsert(S.bets.map(betToRow));
+  await db.from('evidence').upsert(S.evidence.map(evToRow));
+}
+
+function showLoading(on){
+  let el=document.getElementById('db-loading');
+  if(!el){el=document.createElement('div');el.id='db-loading';el.style.cssText='position:fixed;inset:0;background:rgba(13,13,11,.85);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.875rem;color:var(--lime);letter-spacing:.1em;';el.textContent='LOADING...';document.body.appendChild(el);}
+  el.style.display=on?'flex':'none';
+}
+
+// ── DB write helpers ──────────────────────────────────
+async function dbUpsertSprint(s){await db.from('sprints').upsert(sprintToRow(s));}
+async function dbUpsertBet(b){await db.from('bets').upsert(betToRow(b));}
+async function dbInsertEvidence(e){await db.from('evidence').upsert(evToRow(e));}
+async function dbInsertSignalCheck(sc){await db.from('signal_checks').upsert(scToRow(sc));}
+
+// ── Override save functions to also persist ───────────
+const _origSaveSprint=saveSprint;
+saveSprint=async function(){
+  const id='s'+Date.now();
+  const s={id,name:V('ms-n')||'New Sprint',start:V('ms-s'),end:V('ms-e'),focus:V('ms-f'),signals:V('ms-sig'),status:V('ms-st')};
+  S.sprints.unshift(s);
+  closeModal();renderAll();
+  await dbUpsertSprint(s);
+};
+
+const _origSaveBet=saveBet;
+saveBet=async function(){
+  const a=[...document.querySelectorAll('.mba:checked')].map(el=>el.value);
+  const indicators=V('mb-ind').split(',').map(s=>s.trim()).filter(Boolean).slice(0,3);
+  const b={id:'b'+Date.now(),name:V('mb-n')||'New Bet',sprint:V('mb-sp'),ownerArea:V('mb-oa')||'—',ownerContact:V('mb-oc')||'—',status:V('mb-st')||'Active',signal:'Unclear',alignment:a,outcome:V('mb-ou'),hypothesis:V('mb-hy'),whyNow:V('mb-wn'),indicators,killCriteria:V('mb-kc'),scaleTrigger:V('mb-sc'),impactAreas:[],revenue:V('mb-rv')||'Medium',margin:V('mb-mg')||'Medium',importance:V('mb-si')||'Medium',lastReviewed:null,lastNote:null};
+  S.bets.push(b);
+  closeModal();renderAll();
+  await dbUpsertBet(b);
+};
+
+const _origSaveEvidence=saveEvidence;
+saveEvidence=async function(){
+  const betId=V('me-b');
+  const newStatus=V('me-de');
+  const newHyp=V('me-nh');
+  const date=V('me-d');
+  const insight=V('me-in');
+  const e={id:'e'+Date.now(),bet:betId,date,actual:V('me-ac'),insight,newStatus,action:V('me-at')};
+  S.evidence.unshift(e);
+  const bet=GB(betId);
+  if(bet){
+    bet.status=newStatus;
+    bet.lastReviewed=date;
+    bet.lastNote=insight.slice(0,80);
+    if(newStatus==='Pivoted'&&newHyp) bet.hypothesis=newHyp;
+    if(newStatus==='Scaled'||newStatus==='Pivoted') createDraftBet(bet,newStatus,newHyp);
+  }
+  closeModal();renderAll();
+  await dbInsertEvidence(e);
+  if(bet) await dbUpsertBet(bet);
+  // persist any new draft bets
+  const drafts=S.bets.filter(b=>b.isDraft&&!b._persisted);
+  for(const d of drafts){await dbUpsertBet(d);d._persisted=true;}
+};
+
+const _origSaveSignalCheck=saveSignalCheck;
+saveSignalCheck=async function(){
+  const betId=V('sc-b');
+  const newSignal=V('sc-sig');
+  const note=V('sc-note');
+  const bet=GB(betId);
+  const sc={id:'sc'+Date.now(),bet:betId,date:V('sc-d'),prevSignal:bet?.signal||newSignal,signal:newSignal,note};
+  if(bet){bet.signal=newSignal;S.signalChecks.unshift(sc);}
+  closeModal();renderAll();
+  await dbInsertSignalCheck(sc);
+  if(bet) await dbUpsertBet(bet);
+};
+
+const _origSaveClosure=saveClosure;
+saveClosure=async function(sprintId){
+  const sprint=GS(sprintId);if(!sprint)return;
+  const sprintBets=S.bets.filter(b=>b.sprint===sprintId&&b.status==='Active');
+  const closeDate=new Date().toISOString().split('T')[0];
+  const updatedBets=[];
+  sprintBets.forEach(b=>{
+    const outcome=V(`cl-outcome-${b.id}`);
+    const learning=V(`cl-learning-${b.id}`);
+    const newHyp=V(`cl-newhyp-${b.id}`);
+    b.status=outcome==='Active'?'Active':outcome;
+    b.lastReviewed=closeDate;
+    if(learning){b.lastNote=learning;b.closureLearning=learning;}
+    if(outcome==='Scaled'||outcome==='Pivoted') createDraftBet(b,outcome,newHyp);
+    updatedBets.push(b);
+  });
+  sprint.status='Closed';
+  sprint.closure={worked:V('cl-worked'),didnt:V('cl-didnt'),surprised:V('cl-surprised'),hr:V('cl-hr'),tag:V('cl-tag'),ld:V('cl-ld'),mkt:V('cl-mkt'),date:closeDate};
+  closeModal();renderAll();
+  await dbUpsertSprint(sprint);
+  for(const b of updatedBets) await dbUpsertBet(b);
+  const drafts=S.bets.filter(b=>b.isDraft&&!b._persisted);
+  for(const d of drafts){await dbUpsertBet(d);d._persisted=true;}
+};
+
+// ── Init ──────────────────────────────────────────────
+loadFromDB();
+</script>
+</body>
+</html>
