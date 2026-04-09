@@ -1180,7 +1180,7 @@ function openModal(type){
             <div class="wz-field" style="margin-bottom:0;">
               <div class="wz-label">Outcome</div>
               <select id="cl-outcome-${b.id}" onchange="onClosureOutcomeChange('${b.id}')">
-                <option value="Active">Keep Active</option>
+                <option value="">— Select outcome —</option>
                 <option value="Scaled">Scale</option>
                 <option value="Pivoted">Pivot</option>
                 <option value="Done">Mark as Done</option>
@@ -1280,7 +1280,7 @@ function saveClosure(sprintId){
     const outcome=V(`cl-outcome-${b.id}`);
     const learning=V(`cl-learning-${b.id}`);
     const newHyp=V(`cl-newhyp-${b.id}`);
-    b.status=outcome==='Active'?'Active':outcome;
+    b.status=outcome;
     b.lastReviewed=closeDate;
     if(learning){b.lastNote=learning;b.closureLearning=learning;}
     if(outcome==='Scaled'||outcome==='Pivoted') createDraftBet(b,outcome,newHyp);
@@ -1562,13 +1562,19 @@ const _origSaveClosure=saveClosure;
 saveClosure=async function(sprintId){
   const sprint=GS(sprintId);if(!sprint)return;
   const sprintBets=S.bets.filter(b=>b.sprint===sprintId&&b.status==='Active');
+  // Validate all bets have an outcome selected
+  const missing=sprintBets.filter(b=>{const v=V(`cl-outcome-${b.id}`);return!v||v==='';});
+  if(missing.length){
+    alert(`Please select an outcome for: ${missing.map(b=>b.name).join(', ')}`);
+    return;
+  }
   const closeDate=new Date().toISOString().split('T')[0];
   const updatedBets=[];
   sprintBets.forEach(b=>{
     const outcome=V(`cl-outcome-${b.id}`);
     const learning=V(`cl-learning-${b.id}`);
     const newHyp=V(`cl-newhyp-${b.id}`);
-    b.status=outcome==='Active'?'Active':outcome;
+    b.status=outcome;
     b.lastReviewed=closeDate;
     if(learning){b.lastNote=learning;b.closureLearning=learning;}
     if(outcome==='Scaled'||outcome==='Pivoted') createDraftBet(b,outcome,newHyp);
